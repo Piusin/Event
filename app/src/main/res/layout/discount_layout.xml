@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/xmllayouts"
+    >
+    <TextView
+        style="@style/textviewstyles"
+        android:text="SUPERMART DISCOUNTS"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/inner_recyclerView"
+        style="@style/innerRecyclerstyles"
+        />
+
+</LinearLayout>

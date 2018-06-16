@@ -1,0 +1,76 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="4.5"
+    tools:context="com.example.piusin.event.CartFragment">
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:id="@+id/cart_reyclerview">
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:background="#2E86C1"
+            android:weightSum="2"
+            android:layout_margin="5dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_margin="5dp"
+                android:layout_height="match_parent"
+                android:text="Sub Total: "
+                android:textColor="#FFFF"
+                android:id="@+id/cart_subtotal"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:textColor="#FFFF"
+                android:gravity="center"
+                android:id="@+id/cart_total"
+                android:text="KES 10000.00 "
+                android:layout_weight="1.5"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:background="#2E86C1"
+            android:weightSum="2">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#2E86C1"
+                android:id="@+id/btnBackToShop"
+                android:text="Continue Shopping"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#2E86C1"
+                android:id="@+id/btnCheckOut"
+                android:text="Checkout"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

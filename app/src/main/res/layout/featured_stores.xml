@@ -1,0 +1,20 @@
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/xmllayouts"
+    >
+    <TextView
+        style="@style/textviewstyles"
+        android:text="FEATURED STORES"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/inner_recyclerView"
+        style="@style/innerRecyclerstyles"
+        />
+
+
+</LinearLayout>
+
+
+
+

@@ -1,0 +1,44 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+    </style>
+
+    <!--layouts textviews -->
+    <style name="textviewstyles">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+
+<!-- for inner recyclerviews -->
+    <style name="xmllayouts">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+<!-- for RecyclerView itself -->
+    <style name="innerRecyclerstyles">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <!-- for cardviews -->
+
+    <style name="cardviewstyles">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_margin">1dp</item>
+        <item name="cardCornerRadius">8dp</item>
+        <item name="android:padding">5dp</item>
+    </style>
+</resources>

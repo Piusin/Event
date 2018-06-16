@@ -1,0 +1,76 @@
+<RelativeLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layer1">
+        <EditText
+            android:id="@+id/edtSearch"
+            android:layout_width="235dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:hint="Search a Place" />
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/edtSearch"
+            android:layout_alignBottom="@+id/edtSearch"
+            android:layout_alignParentStart="true"
+            android:background="@color/colorAccent"
+            android:onClick="onClick"
+            android:text="Search" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="70dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layer1"
+        android:id="@+id/layer2">
+
+        <Button
+            android:id="@+id/btnHospitals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:onClick="onClick"
+            android:text="Hospitals" />
+
+        <Button
+            android:id="@+id/btnRestraunts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:onClick="onClick"
+            android:text="Restraunts" />
+
+        <Button
+            android:id="@+id/btnSchools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:onClick="onClick"
+            android:text="Schools" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:id="@+id/btnTo"
+            android:text="To"
+            android:onClick="onClick"/>
+    </LinearLayout>
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="470dp"
+        android:layout_below="@+id/layer2"
+        tools:context="com.example.piusin.event.MapsActivity2" />
+</RelativeLayout>

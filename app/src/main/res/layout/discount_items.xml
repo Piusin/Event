@@ -1,0 +1,98 @@
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview_discounts"
+    android:layout_height="140dp"
+    style="@style/cardviewstyles"
+    android:layout_width="match_parent"
+    app:cardUseCompatPadding="true"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.7"
+            android:src="@drawable/dellinspiron"
+            android:scaleType="fitCenter"
+            android:id="@+id/discount_itemImage"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.8"
+            android:layout_margin="5dp"
+            android:padding="4dp"
+            android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Dellinspiron"
+                    android:id="@+id/discount_itemName"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/discount_ocost"
+                android:background="@drawable/strike_text"
+                android:id="@+id/discount_oldCost"
+                android:textSize="15sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="KSH 30000"
+                android:id="@+id/discount_newCost"
+                android:textSize="15sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="4 % off"
+                android:id="@+id/discount"
+                android:textSize="15sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="store name"
+                android:id="@+id/store_name"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            >
+            <Button
+                android:layout_marginStart="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Buy"
+                android:gravity="center_vertical"
+                android:textSize="23sp"
+                android:layout_marginTop="40dp"
+                android:background="#003300"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:id="@+id/discount_btnbuy"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>
+
+
