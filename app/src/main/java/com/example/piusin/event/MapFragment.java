@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.piusin.event.MapsPackage.GetDirectionsData;
+import com.example.piusin.event.MapsPackage.GetDirectionsData1;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -33,6 +35,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
@@ -46,8 +49,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     private GoogleApiClient client;
     private LocationRequest locationRequest;
     private Location lastLocation;
+    private MarkerOptions mo;
     private Marker currentLocationMarker;
     private static final int LOCATION_REQUEST_CODE = 99;
+    private double startLatitude, startLongitude, endLatitude, endLongitude, distanceInKms;
+    private static DecimalFormat df2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -128,6 +134,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         }
 
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        startLatitude = location.getLatitude();
+        startLongitude = location.getLongitude();
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("Current Location");
@@ -140,6 +148,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         if(client != null){
             LocationServices.FusedLocationApi.removeLocationUpdates(client,this);
         }
+        Toast.makeText(context, "Latitude: " + location.getLatitude() + "Longitde: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+        endLatitude = 0.5641064;
+        endLongitude = 34.56108010000003;
+        calculateDistanceAndDuration();
     }
 
     public boolean checkLocationPermission(){
@@ -182,6 +194,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show();
         return false;
     }
 
@@ -199,23 +212,60 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     public void onMarkerDragEnd(Marker marker) {
 
     }
+
+  private void pius(){ //Displays marker when user clicks a certain point in the map
+        mo = new MarkerOptions();
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                mo.position(latLng);
+                mo.title("Store of Interest");
+                mMap.addMarker(mo);
+                Toast.makeText(context, "Latitude: "+ latLng.latitude + "Longitude: " + latLng.longitude, Toast.LENGTH_SHORT).show();
+                //algorithmLocation();
+                calculateDistanceAndDuration();
+            }
+        });
+  }
+
+  private void algorithmLocation(){ //from distanceBetween()
+        df2 = new DecimalFormat(".##");
+        endLatitude = 0.5641064;
+        endLongitude = 34.56108010000003;
+        LatLng latLng = new LatLng(endLatitude,endLongitude);
+        mo = new MarkerOptions();
+        mo.position(latLng);
+        mo.title("Algorithm Location");
+        float [] results = new float[10];
+        Location.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude, results);
+        distanceInKms = results[0]/1000;
+        mo.snippet("Distance: " + df2.format(distanceInKms) + "KMs");
+        mMap.addMarker(mo);
+  }
+
+  private void calculateDistanceAndDuration(){
+      Object dataTransfer[];
+      String url;
+      dataTransfer = new Object[3];
+      url = getDirectionsUrl();
+      GetDirectionsData1 getDirectionsData = new GetDirectionsData1();
+      dataTransfer[0] = mMap;
+      dataTransfer[1] = url;
+      dataTransfer[2] = new LatLng(endLatitude,endLongitude);
+      getDirectionsData.execute(dataTransfer);
+    }
+
+    //for direction API
+    private String getDirectionsUrl(){
+        Toast.makeText(context, "Start: " + startLatitude + "lng: " + startLongitude + "End: "+ endLatitude + "lng: "+ endLongitude, Toast.LENGTH_SHORT).show();
+        StringBuilder googleDirectionsUrl = new StringBuilder("https://maps.googleapis.com/maps/api/directions/json?");
+        googleDirectionsUrl.append("origin="+startLatitude+","+startLongitude);
+        googleDirectionsUrl.append("&destination="+endLatitude+","+endLongitude);
+        googleDirectionsUrl.append("&key="+"AIzaSyC1Bdiqrc7tTk0ISA3aTo-jg-AUaH1Xehs");//13
+
+        return googleDirectionsUrl.toString();
+    }
+
+
 }
 
-/*<RelativeLayout android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.piusin.event.HomeFragment">
-
-    <fragment
-        xmlns:map="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/maps"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="470dp"
-        android:layout_below="@+id/layer2"
-        tools:context="com.example.piusin.event.MainActivity" />
-
-
-</RelativeLayout>*/
