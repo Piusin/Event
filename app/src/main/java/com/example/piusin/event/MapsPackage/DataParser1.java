@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DataParser1 {
+public class DataParser1 { //for drawing a path
     private HashMap<String, String> getDuration(JSONArray googleDirectionsJson){
         HashMap<String, String> googleDirectionsMap = new HashMap<>();
         String duration = "";
@@ -20,7 +20,6 @@ public class DataParser1 {
         try {
             duration = googleDirectionsJson.getJSONObject(0).getJSONObject("duration").getString("text");
             distance = googleDirectionsJson.getJSONObject(0).getJSONObject("distance").getString("text");
-
             googleDirectionsMap.put("duration", duration);
             googleDirectionsMap.put("distance", distance);
         } catch (JSONException e) {

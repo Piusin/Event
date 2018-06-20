@@ -3,6 +3,7 @@ package com.example.piusin.event;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -13,14 +14,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.piusin.event.MapsPackage.CustomInfoWindowAdapter;
 import com.example.piusin.event.MapsPackage.GetDirectionsData;
-import com.example.piusin.event.MapsPackage.GetDirectionsData1;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -36,11 +36,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener,
-        GoogleMap.OnMarkerClickListener, GoogleMap.OnMarkerDragListener {
+        GoogleMap.OnMarkerClickListener, GoogleMap.OnMarkerDragListener, GoogleMap.OnInfoWindowClickListener {
 
     View view;
     AppCompatActivity activity;
@@ -51,6 +50,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     private Location lastLocation;
     private MarkerOptions mo;
     private Marker currentLocationMarker;
+    String storeName;
     private static final int LOCATION_REQUEST_CODE = 99;
     private double startLatitude, startLongitude, endLatitude, endLongitude, distanceInKms;
     private static DecimalFormat df2;
@@ -62,6 +62,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         view = inflater.inflate(R.layout.fragment_map, container, false);
         context = view.getContext();
         activity = (AppCompatActivity) view.getContext();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("storePref", Context.MODE_PRIVATE);
+        storeName = sharedPreferences.getString("store", null);
+        Toast.makeText(context, "Store Name: " + storeName, Toast.LENGTH_SHORT).show();
+
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             checkLocationPermission();
@@ -80,16 +84,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     @Override
     public void onMapReady(GoogleMap googleMap) { //called when map is ready to be used
         mMap = googleMap;
-        /*LatLng latLng = new LatLng(-0.565621,37.320708);
-        MarkerOptions options = new MarkerOptions();
-        options.position(latLng).title("Pius");
-        googleMaps.addMarker(options);
-        googleMaps.moveCamera(CameraUpdateFactory.newLatLng(latLng));*/
 
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
+        mMap.setOnInfoWindowClickListener(this);
 
     }
 
@@ -136,12 +136,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         startLatitude = location.getLatitude();
         startLongitude = location.getLongitude();
+        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(context));
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("Current Location");
+        markerOptions.snippet("To " + storeName + "\n" + "Pius");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
 
-        currentLocationMarker = mMap.addMarker(markerOptions);
+        //currentLocationMarker = mMap.addMarker(markerOptions);
+        CustomInfoWindowAdapter customInfoWindow = new CustomInfoWindowAdapter(context);
+        mMap.setInfoWindowAdapter(customInfoWindow);
+
+        Marker m = mMap.addMarker(markerOptions);
+        m.showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
 
@@ -194,7 +201,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show();
         return false;
     }
 
@@ -248,11 +254,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
       String url;
       dataTransfer = new Object[3];
       url = getDirectionsUrl();
-      GetDirectionsData1 getDirectionsData = new GetDirectionsData1();
+      GetDirectionsData getDirectionsData = new GetDirectionsData();
       dataTransfer[0] = mMap;
       dataTransfer[1] = url;
       dataTransfer[2] = new LatLng(endLatitude,endLongitude);
       getDirectionsData.execute(dataTransfer);
+
     }
 
     //for direction API
@@ -267,5 +274,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     }
 
 
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Toast.makeText(activity, "Info window clicked",
+                Toast.LENGTH_SHORT).show();
+    }
 }
 

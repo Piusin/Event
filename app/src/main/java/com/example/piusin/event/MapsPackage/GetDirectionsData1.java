@@ -1,6 +1,9 @@
 package com.example.piusin.event.MapsPackage;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -10,7 +13,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class GetDirectionsData1 extends AsyncTask<Object, String, String> {
+public class GetDirectionsData1 extends AsyncTask<Object, String, String> { //for drawing path
     GoogleMap mMap;
     String url;
     String googleDirectionsData;
@@ -43,10 +46,11 @@ public class GetDirectionsData1 extends AsyncTask<Object, String, String> {
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
-        markerOptions.title("Duration = " +duration);
-        markerOptions.snippet("Distance = " +distance);
+        markerOptions.title("Suggested Store");
+        markerOptions.snippet("Distances = " +distance + "\n" + "Durations = " +duration);
         mMap.addMarker(markerOptions);
 
     }
+
 
 }

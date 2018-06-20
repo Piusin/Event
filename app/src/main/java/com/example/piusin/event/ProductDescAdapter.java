@@ -2,6 +2,7 @@ package com.example.piusin.event;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by Piusin on 2/19/2018.
  */
@@ -29,6 +32,7 @@ public class ProductDescAdapter extends RecyclerView.Adapter<ProductDescAdapter.
     private Context mCtx;
     private List<ProductDescDataProvider> productDescDataProviderList;
     private ProductDescDataProvider productDataProvider;
+    SharedPreferences sharedPreferences;
 
     public ProductDescAdapter(Context mCtx, List<ProductDescDataProvider> productDescDataProviderList) {
         this.mCtx = mCtx;
@@ -101,9 +105,10 @@ public class ProductDescAdapter extends RecyclerView.Adapter<ProductDescAdapter.
                     case R.id.btnNearestmall:
                         Toast.makeText(mCtx, "Get Nearest Mall with " + productDataProvider.getProductDesName(), Toast.LENGTH_SHORT).show();
                         activity = (AppCompatActivity) v.getContext();
-                        // activity.startActivity(new Intent(mCtx, MapFragment.class));
-                        //activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new MapFragment()).addToBackStack(null).commit();
-                        //activity.getSupportActionBar().setTitle("Map Search");
+                        SharedPreferences.Editor editor = activity.getSharedPreferences("storePref", MODE_PRIVATE).edit();
+                        editor.putString("store", "Khetias Crossroads");
+                        editor.apply();
+
 
                         MapFragment mapFragment = new MapFragment();
                         FragmentManager fragmentManager = activity.getSupportFragmentManager();

@@ -180,7 +180,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
                 break;
 
             case R.id.btnTo:
-                mMap.clear();
+                //mMap.clear(); //commented clear to see markers.
                 /*//add a marker to the same position with the information window
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(new LatLng(endLatitude, endLongitude));

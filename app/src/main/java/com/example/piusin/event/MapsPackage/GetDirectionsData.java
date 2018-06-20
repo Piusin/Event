@@ -1,10 +1,15 @@
 package com.example.piusin.event.MapsPackage;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
@@ -16,13 +21,13 @@ import java.util.HashMap;
  * Created by Piusin on 3/29/2018.
  */
 
-public class GetDirectionsData extends AsyncTask<Object, String, String> {
+public class GetDirectionsData extends AsyncTask<Object, String, String> { //for calculationg distance and duration
 
     GoogleMap mMap;
     String url;
     String googleDirectionsData;
-    String duration,distance;
     LatLng latLng;
+    String duration,distance;
 
     @Override
     protected String doInBackground(Object... objects) {
@@ -42,23 +47,11 @@ public class GetDirectionsData extends AsyncTask<Object, String, String> {
 
     @Override
     protected void onPostExecute(String s) {
-       // HashMap<String, String> directionList = null;
+        distanceDuration(s);
         String [] directionList;
         DataParser parser = new DataParser();
         directionList = parser.parseDirections(s);
-       /* duration = directionList.get("duration");
-        distance = directionList.get("distance");
-
-        mMap.clear();
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        markerOptions.draggable(true);
-        markerOptions.title("Duration = " +duration);
-        markerOptions.snippet("Distance = " +distance);
-
-        mMap.addMarker(markerOptions);*/
-
-       displayDiretion(directionList);
+        displayDiretion(directionList);
     }
 
     public void displayDiretion(String[] directionList){
@@ -71,5 +64,19 @@ public class GetDirectionsData extends AsyncTask<Object, String, String> {
             mMap.addPolyline(options);
         }
 
+    }
+
+    private void distanceDuration(String se){
+        HashMap<String, String> directionList;
+        DataParser1 parser = new DataParser1();
+        directionList = parser.parseDirections(se);
+        duration = directionList.get("duration");
+        distance = directionList.get("distance");
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        markerOptions.title("Suggested Stores");
+        markerOptions.snippet("Distances = " +distance + "\n" + "Durations = " +duration);
+        mMap.addMarker(markerOptions);
     }
 }

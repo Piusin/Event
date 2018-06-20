@@ -14,26 +14,7 @@ import java.util.List;
  * Created by Piusin on 3/29/2018.
  */
 
-public class DataParser {
-
-    private HashMap<String, String> getDuration(JSONArray googleDirectionsJson){
-        HashMap<String, String> googleDirectionsMap = new HashMap<>();
-        String duration = "";
-        String distance = "";
-        Log.d("Json Response", googleDirectionsJson.toString());
-
-        try {
-            duration = googleDirectionsJson.getJSONObject(0).getJSONObject("duration").getString("text");
-            distance = googleDirectionsJson.getJSONObject(0).getJSONObject("distance").getString("text");
-
-            googleDirectionsMap.put("duration", duration);
-            googleDirectionsMap.put("distance", distance);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return googleDirectionsMap;
-    }
+public class DataParser {//for calcutating distance and duration
 
     private HashMap<String, String>getPlace(JSONObject googlePlaceJson){ //holds/returns single places
         HashMap<String, String> googlePlacesMap = new HashMap<>();
@@ -103,19 +84,17 @@ public class DataParser {
     }
 
     //for directionApi to be Used in GetDirectionsData
-    public String[] parseDirections(String jsonData){//public HashMap<String, String> parseDirections(String jsonData)
+    public String[] parseDirections(String jsonData){
         JSONArray jsonArray = null;
         JSONObject jsonObject;
 
         try {
             jsonObject = new JSONObject(jsonData);
-           // jsonArray = jsonObject.getJSONArray("routes").getJSONObject(0).getJSONArray("legs"); //legs Array
             jsonArray = jsonObject.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONArray("steps"); //legs Array
         } catch (JSONException e) {
             e.printStackTrace();
         }
         //for key creation: direction api android
-       // return getDuration(jsonArray);
         return getPaths(jsonArray);
     }
 
