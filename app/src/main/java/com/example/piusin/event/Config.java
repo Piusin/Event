@@ -24,5 +24,7 @@ public class Config {
     public static final String URL_DISCOUNT  = "http://10.42.0.1/Scripts/SuperMart/discounts.php"; //discountFragment
     public static final String URL_PRODUCTSFSTORE  = "http://10.42.0.1/Scripts/SuperMart/getStores.php"; // featuredStoreFragment
     public static final String URL_NEWPRODUCTS  = "http://10.42.0.1/Scripts/SuperMart/newProducts.php"; //whatsNewDes, whatsNewFragment
+    public static final String URL_GETPARSEDPRODUCTSDATA = "http://10.42.0.1/Scripts/SuperMart/sure.php";
+    public static final String URL_ALGORITHMPRODUCTS = "http://10.42.0.1/Scripts/SuperMart/getAlgorithmProducts.php"; //used where smartSearchandfiltering interface is implemented
 
 }

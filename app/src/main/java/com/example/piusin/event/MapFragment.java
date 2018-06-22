@@ -50,10 +50,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     private Location lastLocation;
     private MarkerOptions mo;
     private Marker currentLocationMarker;
-    String storeName;
     private static final int LOCATION_REQUEST_CODE = 99;
     private double startLatitude, startLongitude, endLatitude, endLongitude, distanceInKms;
     private static DecimalFormat df2;
+    private String storeName;
+    private Double storeLatitude, storeLongitude;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,9 +63,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         view = inflater.inflate(R.layout.fragment_map, container, false);
         context = view.getContext();
         activity = (AppCompatActivity) view.getContext();
-        SharedPreferences sharedPreferences = context.getSharedPreferences("storePref", Context.MODE_PRIVATE);
-        storeName = sharedPreferences.getString("store", null);
-        Toast.makeText(context, "Store Name: " + storeName, Toast.LENGTH_SHORT).show();
+
+        //getting algorithimBundleData
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            storeName = bundle.getString("storeName");
+            endLatitude = bundle.getDouble("storeLatitude");
+            endLongitude = bundle.getDouble("storeLongitude");
+        }
+        else
+        {
+            Toast.makeText(context, "Bundle Empty", Toast.LENGTH_SHORT).show();
+        }
+
+        Toast.makeText(context, "Store NameMap: " + storeName, Toast.LENGTH_SHORT).show();
 
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
@@ -155,9 +167,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         if(client != null){
             LocationServices.FusedLocationApi.removeLocationUpdates(client,this);
         }
-        Toast.makeText(context, "Latitude: " + location.getLatitude() + "Longitde: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
-        endLatitude = 0.5641064;
-        endLongitude = 34.56108010000003;
+        //Toast.makeText(context, "Latitude: " + location.getLatitude() + "Longitde: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+        //endLatitude = 0.5641064;
+       // endLongitude = 34.56108010000003;
         calculateDistanceAndDuration();
     }
 

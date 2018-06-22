@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -15,10 +16,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.piusin.event.InterfacesPackage.SweetAlertClass;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -30,9 +41,14 @@ import static android.content.Context.MODE_PRIVATE;
 public class ProductDescAdapter extends RecyclerView.Adapter<ProductDescAdapter.ProductsViewHolder> implements SweetAlertClass{
 
     private Context mCtx;
+    AppCompatActivity activity;
     private List<ProductDescDataProvider> productDescDataProviderList;
     private ProductDescDataProvider productDataProvider;
     SharedPreferences sharedPreferences;
+    private String productName, productDesc;
+    private ArrayList<AlgorithmProductDataProvider> algorithmProductDataProviderArrayList;
+    private List<AlgorithmProductDataProvider> sortedAlgorithmDataProviderList;
+    private int i;
 
     public ProductDescAdapter(Context mCtx, List<ProductDescDataProvider> productDescDataProviderList) {
         this.mCtx = mCtx;
@@ -103,20 +119,26 @@ public class ProductDescAdapter extends RecyclerView.Adapter<ProductDescAdapter.
                         break;
 
                     case R.id.btnNearestmall:
+                        loadAlgorithmProducts();
+                       /* MapFragment mapFragment = new MapFragment();
                         Toast.makeText(mCtx, "Get Nearest Mall with " + productDataProvider.getProductDesName(), Toast.LENGTH_SHORT).show();
                         activity = (AppCompatActivity) v.getContext();
-                        SharedPreferences.Editor editor = activity.getSharedPreferences("storePref", MODE_PRIVATE).edit();
-                        editor.putString("store", "Khetias Crossroads");
-                        editor.apply();
-
-
-                        MapFragment mapFragment = new MapFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("store_name", sortedAlgorithmDataProviderList.get(0).storeName);
+                        bundle.putDouble("store_latitude", sortedAlgorithmDataProviderList.get(0).storeLatitude);
+                        bundle.putDouble("store_longitude", sortedAlgorithmDataProviderList.get(0).storeLongitude);
+                        mapFragment.setArguments(bundle);
                         FragmentManager fragmentManager = activity.getSupportFragmentManager();
                         fragmentManager.beginTransaction().replace(R.id.main_container, mapFragment).addToBackStack(null).commit();
-                        break;
+                        */break;
 
                     case R.id.btnaddToBasket:
-                        Toast.makeText(mCtx, "Add " + productDataProvider.getProductDesName() + " to the basket", Toast.LENGTH_SHORT).show();
+                        loadAlgorithmProducts();
+
+                       /* Toast.makeText(mCtx, "StoreName: " +sortedAlgorithmDataProviderList.get(0).storeName +  " Latitude: " + sortedAlgorithmDataProviderList.get(0).storeLatitude +
+                                " Longitude: " + sortedAlgorithmDataProviderList.get(0).storeLongitude + " ProductName: " + sortedAlgorithmDataProviderList.get(0).productName + " ProductCost: "+
+                                sortedAlgorithmDataProviderList.get(0).productCost, Toast.LENGTH_SHORT).show();
+                        *///Toast.makeText(mCtx, "Add " + productDataProvider.getProductDesName() + " to the basket", Toast.LENGTH_SHORT).show();
                         break;
 
                     default:
@@ -165,5 +187,161 @@ public class ProductDescAdapter extends RecyclerView.Adapter<ProductDescAdapter.
         }
         return false;
     }
+
+
+    //fetching products from server.
+    private void loadAlgorithmProducts(){
+        algorithmProductDataProviderArrayList = new ArrayList<>();
+        productName = productDataProvider.getProductDesName();
+        productDesc = productDataProvider.getProductDescription();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Config.URL_ALGORITHMPRODUCTS, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try{
+
+                    JSONArray array = new JSONArray(response);
+                    for (i = 0; i < array.length(); i++) {
+
+                         JSONObject product = array.getJSONObject(i);
+
+                         if(product.getString("product_name").contains(productName))
+                            //adding the product to arrayList
+                            algorithmProductDataProviderArrayList.add(new AlgorithmProductDataProvider(
+                                    product.getString("product_name"),
+                                    product.getString("store_name"),
+                                    product.getDouble("product_cost"),
+                                    product.getDouble("store_latitude"),
+                                    product.getDouble("store_longitude"),
+                                    product.getInt("quantity_at_hand")
+                            ));
+                    }
+/*
+                    for(int index = 0; index<algorithmProductDataProviderArrayList.size(); index++)
+                    Toast.makeText(mCtx, "Index: " + index + " " + algorithmProductDataProviderArrayList.get(index).getStoreLatitude(), Toast.LENGTH_SHORT).show();
+                       */ //Toast.makeText(mCtx, "ArrayList: " + algorithmProductDataProviderArrayList.size(), Toast.LENGTH_SHORT).show();
+                        int middle = (int) Math.ceil((double) algorithmProductDataProviderArrayList.size() / 2);
+                        double pivot = algorithmProductDataProviderArrayList.get(middle).getProductCost();
+                        //Toast.makeText(mCtx, "Middle: " + middle + "\n" + "Pivot: " + pivot, Toast.LENGTH_SHORT).show();
+
+                        List<AlgorithmProductDataProvider> pivotList = new ArrayList<>();
+                        List<AlgorithmProductDataProvider> less = new ArrayList<AlgorithmProductDataProvider>();
+                        List<AlgorithmProductDataProvider> greater = new ArrayList<AlgorithmProductDataProvider>();
+
+                        for (int i = 0; i < algorithmProductDataProviderArrayList.size(); i++) {
+                            if (algorithmProductDataProviderArrayList.get(i).getProductCost() <= pivot) {
+                                if (i == middle) {
+                                    continue;
+                                }
+                                less.add(algorithmProductDataProviderArrayList.get(i));
+                            } else {
+                                greater.add(algorithmProductDataProviderArrayList.get(i));
+                            }
+                        }
+                        pivotList.add(algorithmProductDataProviderArrayList.get(middle));
+                        concatenate(less, pivotList, greater);
+                    //Toast.makeText(mCtx, "ListMen: " + concatenate(less,pivotList,greater).toString(), Toast.LENGTH_SHORT).show();
+
+                    if(sortedAlgorithmDataProviderList.size()!= 0){//send data to mapFragment
+
+                        MapFragment mapFragment = new MapFragment();
+                        Toast.makeText(mCtx, "Get Nearest Mall with " + productDataProvider.getProductDesName(), Toast.LENGTH_SHORT).show();
+                        activity = (AppCompatActivity) mCtx;
+                        Bundle bundle = new Bundle();
+                        bundle.putString("storeName", sortedAlgorithmDataProviderList.get(0).storeName);
+                        bundle.putDouble("storeLatitude", sortedAlgorithmDataProviderList.get(0).storeLatitude);
+                        bundle.putDouble("storeLongitude", sortedAlgorithmDataProviderList.get(0).storeLongitude);
+                        mapFragment.setArguments(bundle);
+
+                        /*Toast.makeText(mCtx, "StoreName: " +sortedAlgorithmDataProviderList.get(0).storeName +  " Latitude: " + sortedAlgorithmDataProviderList.get(0).storeLatitude +
+                         " Longitude: " + sortedAlgorithmDataProviderList.get(0).storeLongitude + " ProductName: " + sortedAlgorithmDataProviderList.get(0).productName + " ProductCost: "+
+                                sortedAlgorithmDataProviderList.get(0).productCost, Toast.LENGTH_SHORT).show();*/
+                        SharedPreferences.Editor editor = activity.getSharedPreferences("storePref", MODE_PRIVATE).edit();
+                        editor.putString("store", "Khetias Crossroads");
+                        editor.apply();
+
+
+
+                        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.main_container, mapFragment).addToBackStack(null).commit();
+
+                    }
+                    else{
+                        Toast.makeText(mCtx, "Empty", Toast.LENGTH_SHORT).show();
+                    }
+
+                    Toast.makeText(mCtx, "StoreName: " +sortedAlgorithmDataProviderList.get(0).storeName +  " Latitude: " + sortedAlgorithmDataProviderList.get(0).storeLatitude +
+                            " Longitude: " + sortedAlgorithmDataProviderList.get(0).storeLongitude + " ProductName: " + sortedAlgorithmDataProviderList.get(0).productName + " ProductCost: "+
+                            sortedAlgorithmDataProviderList.get(0).productCost, Toast.LENGTH_SHORT).show();
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(mCtx).add(stringRequest);
+
+    }
+
+
+    /*private List<AlgorithmProductDataProvider> quicksort(List<AlgorithmProductDataProvider> algorithmProductDataProviderArrayList)
+    {
+        Toast.makeText(mCtx, "Size2: " + algorithmProductDataProviderArrayList.size(), Toast.LENGTH_SHORT).show();
+
+        int middle = (int) Math.ceil((double) algorithmProductDataProviderArrayList.size() / 2);
+        double pivot = 2;
+//        double pivot = algorithmProductDataProviderArrayList.get(middle).getProductCost();
+        Toast.makeText(mCtx, "Middle: "+ middle + "pivot: " + pivot, Toast.LENGTH_SHORT).show();
+
+        List<AlgorithmProductDataProvider> less = new ArrayList<AlgorithmProductDataProvider>();
+        List<AlgorithmProductDataProvider> greater = new ArrayList<AlgorithmProductDataProvider>();
+
+        for (int i = 0; i < algorithmProductDataProviderArrayList.size(); i++) {
+            if (algorithmProductDataProviderArrayList.get(i).getProductCost() <= pivot) {
+                if (i == middle) {
+                    continue;
+                }
+                less.add(algorithmProductDataProviderArrayList.get(i));
+            } else {
+                greater.add(algorithmProductDataProviderArrayList.get(i));
+            }
+        }
+        Toast.makeText(mCtx, "Less: " + less.size() + "Greater: " + greater.size(), Toast.LENGTH_SHORT).show();
+        return concatenate(quicksort(less), pivotList, quicksort(greater));
+    }*/
+
+    private List<AlgorithmProductDataProvider> concatenate(List<AlgorithmProductDataProvider> less, List<AlgorithmProductDataProvider> pivotList, List<AlgorithmProductDataProvider> greater){
+
+        int index;
+
+        sortedAlgorithmDataProviderList = new ArrayList<AlgorithmProductDataProvider>();
+
+        for (int i = 0; i < less.size(); i++) {
+            sortedAlgorithmDataProviderList.add(less.get(i));
+        }
+
+        sortedAlgorithmDataProviderList.add(pivotList.get(0));
+
+        for (int i = 0; i < greater.size(); i++) {
+            sortedAlgorithmDataProviderList.add(greater.get(i));
+        }
+
+       /* for(index =0; index< sortedAlgorithmDataProviderList.size() ; index++){
+            Toast.makeText(mCtx, "Index: " + index + "ProductCost: " + sortedAlgorithmDataProviderList.get(index).getProductCost() + "StoreName: " + sortedAlgorithmDataProviderList.get(index).getStoreName(), Toast.LENGTH_SHORT).show();
+        }*/
+        return sortedAlgorithmDataProviderList;
+    }
+
+
+
 }
 
