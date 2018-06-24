@@ -119,18 +119,18 @@ public class ProductDescAdapter extends RecyclerView.Adapter<ProductDescAdapter.
                         break;
 
                     case R.id.btnNearestmall:
-                        loadAlgorithmProducts();
-                       /* MapFragment mapFragment = new MapFragment();
+                       // loadAlgorithmProducts();
+                        MapFragment mapFragment = new MapFragment();
                         Toast.makeText(mCtx, "Get Nearest Mall with " + productDataProvider.getProductDesName(), Toast.LENGTH_SHORT).show();
                         activity = (AppCompatActivity) v.getContext();
                         Bundle bundle = new Bundle();
-                        bundle.putString("store_name", sortedAlgorithmDataProviderList.get(0).storeName);
-                        bundle.putDouble("store_latitude", sortedAlgorithmDataProviderList.get(0).storeLatitude);
-                        bundle.putDouble("store_longitude", sortedAlgorithmDataProviderList.get(0).storeLongitude);
+                        bundle.putString("productName", productDataProvider.getProductDesName());
+                        bundle.putString("productDesc", productDataProvider.getProductDescription());
+                       // bundle.putDouble("store_longitude", sortedAlgorithmDataProviderList.get(0).storeLongitude);
                         mapFragment.setArguments(bundle);
                         FragmentManager fragmentManager = activity.getSupportFragmentManager();
                         fragmentManager.beginTransaction().replace(R.id.main_container, mapFragment).addToBackStack(null).commit();
-                        */break;
+                        break;
 
                     case R.id.btnaddToBasket:
                         loadAlgorithmProducts();
@@ -256,9 +256,9 @@ public class ProductDescAdapter extends RecyclerView.Adapter<ProductDescAdapter.
                         /*Toast.makeText(mCtx, "StoreName: " +sortedAlgorithmDataProviderList.get(0).storeName +  " Latitude: " + sortedAlgorithmDataProviderList.get(0).storeLatitude +
                          " Longitude: " + sortedAlgorithmDataProviderList.get(0).storeLongitude + " ProductName: " + sortedAlgorithmDataProviderList.get(0).productName + " ProductCost: "+
                                 sortedAlgorithmDataProviderList.get(0).productCost, Toast.LENGTH_SHORT).show();*/
-                        SharedPreferences.Editor editor = activity.getSharedPreferences("storePref", MODE_PRIVATE).edit();
+                       /* SharedPreferences.Editor editor = activity.getSharedPreferences("storePref", MODE_PRIVATE).edit();
                         editor.putString("store", "Khetias Crossroads");
-                        editor.apply();
+                        editor.apply();*/
 
 
 
