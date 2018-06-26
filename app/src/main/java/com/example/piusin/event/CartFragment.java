@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,9 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class CartFragment extends Fragment {
+public class CartFragment extends Fragment implements View.OnClickListener{
 
-//usees productdataprovider && cartAdapter
+//uses productdataprovider && cartAdapter
     //private static final String URL_PRODUCTS  = "http://192.168.101.1/SuperMart/products.php";
 
     RecyclerView recyclerView;
@@ -47,6 +48,7 @@ public class CartFragment extends Fragment {
     String prodCount;
     double subTotal, productCost;
     TextView cartTotal;
+    private Button btnBackToShop, btnCheckOut;
 
     public CartFragment(){
         //constructor
@@ -66,8 +68,12 @@ public class CartFragment extends Fragment {
         recyclerView = view.findViewById(R.id.cart_reyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-
         cartTotal = view.findViewById(R.id.cart_total);
+        btnCheckOut = view.findViewById(R.id.btn_check_out);
+        btnBackToShop = view.findViewById(R.id.btn_back_toShop);
+
+        btnBackToShop.setOnClickListener(this);
+        btnCheckOut.setOnClickListener(this);
 
         productDataProviderList = new ArrayList<>();
         loadProducts();
@@ -146,5 +152,22 @@ public class CartFragment extends Fragment {
         }
 
    cartTotal.setText(String.valueOf(subTotal));
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.btn_back_toShop:
+                Toast.makeText(context, "BT clicked", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.btn_check_out:
+                Toast.makeText(context, "CO clicked", Toast.LENGTH_SHORT).show();
+                break;
+
+                default:
+                    Toast.makeText(context, "End of Options", Toast.LENGTH_SHORT).show();
+                    break;
+        }
     }
 }

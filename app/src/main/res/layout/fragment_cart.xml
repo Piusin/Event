@@ -59,14 +59,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#2E86C1"
-                android:id="@+id/btnBackToShop"
+                android:id="@+id/btn_back_toShop"
                 android:text="Continue Shopping"/>
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#2E86C1"
-                android:id="@+id/btnCheckOut"
+                android:id="@+id/btn_check_out"
                 android:text="Checkout"/>
 
         </LinearLayout>
