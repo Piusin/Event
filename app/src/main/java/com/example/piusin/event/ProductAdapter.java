@@ -40,7 +40,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Products
     CartDbHelper cartDbHelper;
     SQLiteDatabase sqLiteDatabase;
     Cursor cursor;
-    String productNames, productDes, productCount;
+    String productNames, productDes, productCount, storeName;
+    int position;
+    static int cursorKey = 0;
 
     TextView mCount;
 
@@ -61,7 +63,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Products
     @Override
     public void onBindViewHolder(ProductsViewHolder holder, int position){
          productDataProvider = productDataProviderList.get(position);
-
+         //holder.productAddToCart.setTag(position);
         Picasso.with(mCtx)
                 .load(productDataProvider.getProductImage())
                 .into(holder.productImage);
@@ -99,10 +101,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Products
         productNames = productDataProvider.getProductName();
         productDes = productDataProvider.getProductDescription();
         productCount = "1";
+        storeName = productDataProvider.getStoreName();
 
 }
-
-
 
     @Override
     public int getItemCount() {
@@ -137,56 +138,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Products
 
         }
 
-        public void restrictInsertion() {
-            cartDbHelper = new CartDbHelper(mCtx);
-            sqLiteDatabase = cartDbHelper.getReadableDatabase();
-            cursor = cartDbHelper.getInformations(sqLiteDatabase);
-
-            if (cursor.moveToFirst()) {
-                do {
-                    final String prodName, prodDes, prodCount;
-                    prodName = cursor.getString(0);
-                    prodDes = cursor.getString(1);
-                    prodCount = cursor.getString(2);
-
-                    if(prodName.equals(productDataProvider.getProductName()) && prodDes.equals(productDataProvider.getProductDescription()))
-                    {
-                        //if product already exists
-                        Toast.makeText(mCtx, productDataProvider.getProductName()+ " Product already exists", Toast.LENGTH_SHORT).show();
-                        int count = Integer.valueOf(prodCount);
-                        count++;
-                        cartDbHelper = new CartDbHelper(mCtx);
-                        sqLiteDatabase = cartDbHelper.getWritableDatabase();
-
-                        String name,des, counts;
-                        name = productDataProvider.getProductName();
-                        des = productDataProvider.getProductDescription();
-                        counts = String.valueOf(count);
-                        int countd = cartDbHelper.updateInformations(name, name, des, counts, sqLiteDatabase);
-                    }
-                    else
-                    {
-                        //if table not empty && product doesnt exist
-                        cartDbHelper = new CartDbHelper(mCtx);
-                        sqLiteDatabase = cartDbHelper.getWritableDatabase();
-                        cartDbHelper.addInformations(productNames, productDes,productCount, sqLiteDatabase);
-                        cartDbHelper.close();
-                    }
-
-
-                } while (cursor.moveToNext());
-            }
-
-            else{
-                //if table is empty
-                  cartDbHelper = new CartDbHelper(mCtx);
-                  sqLiteDatabase = cartDbHelper.getWritableDatabase();
-                  cartDbHelper.addInformations(productNames, productDes, productCount, sqLiteDatabase);
-                  cartDbHelper.close();
-            }
-        }
-
-
         public void displaySweetAlert(){
             new SweetAlertDialog(mCtx, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("Are you sure?")
@@ -197,19 +148,74 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Products
 
         @Override
         public void onClick(View v) {
-           /* AppCompatActivity activity = (AppCompatActivity) v.getContext();
-            activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new ProductDescFragment()).addToBackStack(null).commit();
-            activity.getSupportActionBar().setTitle("Product");*/
+          // int position = (int)v.getTag();
+           position = getAdapterPosition();
+            String dproductName, dprodDesc, dstoreName;
+            dproductName = productDataProviderList.get(position).getProductName();
+            dprodDesc = productDataProviderList.get(position).getProductDescription();
+            dstoreName = productDataProviderList.get(position).getStoreName();
 
           switch (v.getId()) {
-              case R.id.products_btnbuy:
+              case R.id.products_btnbuy: //should go directly to buy
                   displaySweetAlert();
-                  Toast.makeText(mCtx, "Buy " + productDataProvider.getProductName(), Toast.LENGTH_SHORT).show();
+                  Toast.makeText(mCtx, "Buy " + productDataProviderList.get(position).getProductName(), Toast.LENGTH_SHORT).show();
                   break;
 
               case R.id.products_btncart:
-                  restrictInsertion();
-                  Toast.makeText(mCtx, "Item Added to cart", Toast.LENGTH_SHORT).show();
+                  //start of restrict
+                  cartDbHelper = new CartDbHelper(mCtx);
+                  sqLiteDatabase = cartDbHelper.getReadableDatabase();
+                  cursor = cartDbHelper.getInformations(sqLiteDatabase);
+                  int size = 0;
+
+                  if (cursor.moveToFirst()) {
+                      do {
+                          size++;
+                          final String prodName, prodDes, prodCount, prodStore;
+                          prodName = cursor.getString(0);
+                          prodDes = cursor.getString(1);
+                          prodCount = cursor.getString(2);
+                          prodStore = cursor.getString(3);
+
+                          if (prodName.equals(dproductName) && prodDes.equals(dprodDesc)) {
+                              //if product already exists
+                              Toast.makeText(mCtx, dproductName + " Product already exists", Toast.LENGTH_SHORT).show();
+                              int count = Integer.valueOf(prodCount);
+                              count++;
+                              cartDbHelper = new CartDbHelper(mCtx);
+                              sqLiteDatabase = cartDbHelper.getWritableDatabase();
+                              String name,des, counts;
+                              name = dproductName;
+                              des = dprodDesc;
+                              counts = String.valueOf(count);
+                              cartDbHelper.updateInformations(name, name, des, counts, prodStore, sqLiteDatabase);
+
+                          }
+                          else {
+                              if (size != cursor.getCount()) {
+
+                              } else {
+                                  //if table not empty && product doesnt exist
+                                  cartDbHelper = new CartDbHelper(mCtx);
+                                  sqLiteDatabase = cartDbHelper.getWritableDatabase();
+                                  cartDbHelper.addInformations(dproductName, dprodDesc, productCount, dstoreName, sqLiteDatabase);
+                                  cartDbHelper.close();
+                                  Toast.makeText(mCtx, "Item Added to cart", Toast.LENGTH_SHORT).show();
+                              }
+                          }
+                      } while (cursor.moveToNext());
+                  }
+
+                  else{
+                      //if table is empty
+                      cartDbHelper = new CartDbHelper(mCtx);
+                      sqLiteDatabase = cartDbHelper.getWritableDatabase();
+                      cartDbHelper.addInformations(dproductName, dprodDesc, productCount, dstoreName, sqLiteDatabase);
+                      cartDbHelper.close();
+                      Toast.makeText(mCtx, "Item Added to cart", Toast.LENGTH_SHORT).show();
+                  }
+                  //end of restrict
+
                   break;
 
               default:
@@ -223,7 +229,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Products
         productDataProviderList = new ArrayList<>();
         productDataProviderList.addAll(newList);
         notifyDataSetChanged();
-        // Toast.makeText(Countries.class, "", Toast.LENGTH_SHORT).show();
     }
 
     @Override

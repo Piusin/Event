@@ -94,7 +94,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         if (bundle != null) {
           productName = bundle.getString("productName");
           productDesc = bundle.getString("productDesc");
-          loadAlgorithmProducts();
+          loadAlgorithmProducts(); //load for one product click
 
         } else {
             Toast.makeText(context, "Bundle Empty", Toast.LENGTH_SHORT).show();
@@ -306,14 +306,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
 
     @Override
-    public void onInfoWindowClick(Marker marker) {
+    public void onInfoWindowClick(Marker marker) { // will open a window showing products and their new costs
         Toast.makeText(activity, "Info window clicked",
                 Toast.LENGTH_SHORT).show();
     }
 
     //fetching products from server.
-    private void loadAlgorithmProducts(){
-
+    private void loadAlgorithmProducts(){ //algorithm for one product
         SharedPreferences sharedPreferences = context.getSharedPreferences("piusPref",
                 Context.MODE_PRIVATE);
         startLatitudeA = Double.valueOf(sharedPreferences.getString("startLat", "0.6174969"));
@@ -349,7 +348,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                             // start of calculate storeDistances and store in an arraylist
                                 if (startLatitudeA != null && startLongitudeA != null && endLatitude != null && endLongitude != null) {
 
-                                    df2 = new DecimalFormat(".##");
                                     float[] results = new float[10];
                                     Location.distanceBetween(startLatitudeA, startLongitudeA, endLatitude, endLongitude, results);
                                     distanceInKms = results[0] / 1000;
@@ -457,7 +455,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         //start of QuickSortMerge
         private List<DCOptimazitionDataProvider> concatenate(List<DCOptimazitionDataProvider> less, List<DCOptimazitionDataProvider> pivotList, List<DCOptimazitionDataProvider> greater){
 
-        int index;
             sortedDCOptimizationArrayList = new ArrayList<>();
 
         for (int i = 0; i < less.size(); i++) {

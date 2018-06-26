@@ -7,10 +7,12 @@ package com.example.piusin.event;
 public class CartDataProvider {
     private String productName;
     private String productDes;
+    private String storeName;
 
-    public CartDataProvider(String productName, String productDes) {
+    public CartDataProvider(String productName, String productDes, String storeName) {
         this.productName = productName;
         this.productDes = productDes;
+        this.storeName = storeName;
     }
 
     public String getProductName() {
@@ -19,5 +21,9 @@ public class CartDataProvider {
 
     public String getProductDes() {
         return productDes;
+    }
+
+    public String getStoreName() {
+        return storeName;
     }
 }

@@ -191,11 +191,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartsViewHolde
                         cartDbHelper = new CartDbHelper(mCtx);
                         sqLiteDatabase = cartDbHelper.getWritableDatabase();
 
-                        String name, des, counts;
+                        String name, des, counts, store;
                         name = productDataProvider.getProductName();
                         des = productDataProvider.getProductDescription();
+                        store = productDataProvider.getStoreName();
                         counts = String.valueOf(count);
-                        int countd = cartDbHelper.updateInformations(name, name, des, counts, sqLiteDatabase);
+                        int countd = cartDbHelper.updateInformations(name, name, des, counts, store, sqLiteDatabase);
                         cartItemCount.setText(counts);
                     }
 

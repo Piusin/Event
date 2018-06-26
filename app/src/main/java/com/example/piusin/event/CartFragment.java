@@ -93,22 +93,23 @@ public class CartFragment extends Fragment {
         if(cursor.moveToFirst())
         {
             do{
-                final String prodName,prodDes;
+                final String prodName, prodDes, prodStoreName;
                 prodName = cursor.getString(0);
                 prodDes = cursor.getString(1);
                 prodCount = cursor.getString(2);
+                prodStoreName = cursor.getString(3);
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, Config.URL_PRODUCTS, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try{
-
                             //converting the string to json array object
                             JSONArray array = new JSONArray(response);
                             for (int i = 0; i < array.length(); i++) {
 
                                 JSONObject product = array.getJSONObject(i);
 
-                                if (product.getString("product_name").equals(prodName) && product.getString("product_description").equals(prodDes)){
+                                if (product.getString("product_name").equals(prodName) && product.getString("product_description").equals(prodDes)
+                                        && product.getString("store_name").equals(prodStoreName)){
                                 productDataProviderList.add(new ProductDataProvider(
                                         product.getString("category_name"),
                                         product.getString("product_description"),
@@ -123,8 +124,6 @@ public class CartFragment extends Fragment {
                                 }
 
                             }
-
-
                             //creating adapter object and setting it to recyclerview
                             CartAdapter adapter = new CartAdapter(context, productDataProviderList);
                             recyclerView.setAdapter(adapter);
@@ -142,9 +141,6 @@ public class CartFragment extends Fragment {
 
                 //adding our stringrequest to queue
                 Volley.newRequestQueue(context).add(stringRequest);
-
-
-
 
             }while(cursor.moveToNext());
         }
