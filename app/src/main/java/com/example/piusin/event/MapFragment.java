@@ -50,6 +50,7 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
+//for one product
 public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener,
         GoogleMap.OnMarkerClickListener, GoogleMap.OnMarkerDragListener, GoogleMap.OnInfoWindowClickListener {

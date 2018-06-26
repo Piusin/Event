@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,7 +41,7 @@ public class CartFragment extends Fragment implements View.OnClickListener{
     Context context = null;
     List<ProductDataProvider> productDataProviderList;
     View view;
-
+    AppCompatActivity activity;
 
     SQLiteDatabase sqLiteDatabase;
     CartDbHelper cartDbHelper;
@@ -68,6 +69,7 @@ public class CartFragment extends Fragment implements View.OnClickListener{
         recyclerView = view.findViewById(R.id.cart_reyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        activity = (AppCompatActivity) view.getContext();
         cartTotal = view.findViewById(R.id.cart_total);
         btnCheckOut = view.findViewById(R.id.btn_check_out);
         btnBackToShop = view.findViewById(R.id.btn_back_toShop);
@@ -156,13 +158,20 @@ public class CartFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
+        activity = (AppCompatActivity) v.getContext();
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        Bundle bundle = new Bundle();
         switch(v.getId()){
             case R.id.btn_back_toShop:
-                Toast.makeText(context, "BT clicked", Toast.LENGTH_SHORT).show();
+                ProductsFragment productsFragment = new ProductsFragment();
+                bundle.putString("storeName", "all");
+                productsFragment.setArguments(bundle);
+                fragmentManager.beginTransaction().replace(R.id.main_container, new HomeFragment()).addToBackStack(null).commit();
                 break;
 
             case R.id.btn_check_out:
-                Toast.makeText(context, "CO clicked", Toast.LENGTH_SHORT).show();
+                MapFragmentMany mapFragmentMany = new MapFragmentMany();
+                fragmentManager.beginTransaction().replace(R.id.main_container, mapFragmentMany).addToBackStack(null).commit();
                 break;
 
                 default:
