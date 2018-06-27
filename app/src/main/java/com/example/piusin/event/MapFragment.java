@@ -279,7 +279,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         float[] results = new float[10];
         Location.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude, results);
         distanceInKms = results[0] / 1000;
-        mo.snippet("Distance: " + df2.format(distanceInKms) + "KMsff");
+        mo.snippet("Distance: " + df2.format(distanceInKms) + "KMs");
         mMap.addMarker(mo);
     }
 
