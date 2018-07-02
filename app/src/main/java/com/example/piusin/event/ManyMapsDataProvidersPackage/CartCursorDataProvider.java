@@ -2,15 +2,16 @@ package com.example.piusin.event.ManyMapsDataProvidersPackage;
 
 public class CartCursorDataProvider {
     private String productName, productDes, productCost, quantityAtHand,
-                   storeName;
+                   storeName, productCount;
     private double storeLatitude, storeLongitude;
 
-    public CartCursorDataProvider(String productName, String productDes, String productCost, String quantityAtHand, String storeName, double storeLatitude, double storeLongitude) {
+    public CartCursorDataProvider(String productName, String productDes, String productCost, String quantityAtHand, String storeName, String productCount, double storeLatitude, double storeLongitude) {
         this.productName = productName;
         this.productDes = productDes;
         this.productCost = productCost;
         this.quantityAtHand = quantityAtHand;
         this.storeName = storeName;
+        this.productCount = productCount;
         this.storeLatitude = storeLatitude;
         this.storeLongitude = storeLongitude;
     }
@@ -33,6 +34,10 @@ public class CartCursorDataProvider {
 
     public String getStoreName() {
         return storeName;
+    }
+
+    public String getProductCount() {
+        return productCount;
     }
 
     public double getStoreLatitude() {

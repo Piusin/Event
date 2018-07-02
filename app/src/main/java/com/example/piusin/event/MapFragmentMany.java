@@ -77,8 +77,8 @@ public class MapFragmentMany extends Fragment implements OnMapReadyCallback, Goo
     SQLiteDatabase sqLiteDatabase;
     CartDbHelper cartDbHelper;
     Cursor cursor;
-    String prodCount;
-    String prodName, prodDes, prodStoreName;
+    String prodName, prodDes, prodStoreName, middle, prodCount;
+    int index;
 
     private ArrayList<CartCursorDataProvider> cartCursorDataProviderArrayList;
     private ArrayList<StoreDistancesDataProvider> storeDistancesDataProviderArrayList;
@@ -98,7 +98,6 @@ public class MapFragmentMany extends Fragment implements OnMapReadyCallback, Goo
         }
 
         loadAlgorithmProducts();
-        //createCartItemsArray();
         return view;
     }
 
@@ -179,7 +178,7 @@ public class MapFragmentMany extends Fragment implements OnMapReadyCallback, Goo
         if (client != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
         }
-        // Toast.makeText(context, "Latitude: " + location.getLatitude() + "Longitde: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+
         endLatitude = 0.5641064;
         endLongitude = 34.56108010000003;
         //calculateDistanceAndDuration();
@@ -260,7 +259,7 @@ public class MapFragmentMany extends Fragment implements OnMapReadyCallback, Goo
         return googleDirectionsUrl.toString();
     }
 
-   /* private void createCartItemsArray(){ //trying to create non looping
+    private void createCartItemsArray(){ //trying to create non looping
         cartDbHelper = new CartDbHelper(context);
         sqLiteDatabase = cartDbHelper.getReadableDatabase();
         cursor = cartDbHelper.getInformations(sqLiteDatabase);
@@ -268,8 +267,6 @@ public class MapFragmentMany extends Fragment implements OnMapReadyCallback, Goo
         cartItemDataProviderArrayList = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
-                //final String prodName, prodDes, prodStoreName;
-                Toast.makeText(context, "Many", Toast.LENGTH_SHORT).show();
                 prodName = cursor.getString(0);
                 prodDes = cursor.getString(1);
                 prodCount = cursor.getString(2);
@@ -282,108 +279,33 @@ public class MapFragmentMany extends Fragment implements OnMapReadyCallback, Goo
                 ));
             }
             while (cursor.moveToNext());
-            Toast.makeText(context, "Size:  " + cartItemDataProviderArrayList.size(), Toast.LENGTH_SHORT).show();
+
         }
         else{
             Toast.makeText(context, "Your Cart is Empty....", Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(context, "Once", Toast.LENGTH_SHORT).show();
-        loadAlgorithmProduct();
 
     }
-
-
-    //fetching products from server.
-    private void loadAlgorithmProduct() {
-        
-        cartCursorDataProviderArrayList = new ArrayList<>();
-        for(i = 0; i < cartItemDataProviderArrayList.size(); i++ ){
-            prodName = cartItemDataProviderArrayList.get(i).getProductName();
-            prodDes = cartItemDataProviderArrayList.get(i).getProductDes();
-            prodStoreName = cartItemDataProviderArrayList.get(i).getStoreName();
-            prodCount = cartItemDataProviderArrayList.get(i).getProductCount();
-            fetchDataFromServer();
-            createStoreDistanceArrayList();
-        }
-
-    }
-    
-    private void fetchDataFromServer(){
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Config.URL_ALGORITHMPRODUCTS, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                // Toast.makeText(context, "Fuck 2", Toast.LENGTH_SHORT).show();
-                try {
-                    // Toast.makeText(context, "Fuck 3", Toast.LENGTH_SHORT).show();
-                    //converting the string to json array object
-                    JSONArray array = new JSONArray(response);
-                    for (i = 0; i < array.length(); i++) {
-                        // Toast.makeText(context, "Fuck 4", Toast.LENGTH_SHORT).show();
-
-                        JSONObject product = array.getJSONObject(i);
-
-                        if (product.getString("product_name").equals(prodName) && product.getString("product_description").equals(prodDes)) {
-                            cartCursorDataProviderArrayList.add(new CartCursorDataProvider(
-                                    product.getString("product_name"),
-                                    product.getString("product_description"),
-                                    product.getString("product_cost"),
-                                    product.getString("quantity_at_hand"),
-                                    product.getString("store_name"),
-                                    product.getDouble("store_latitude"),
-                                    product.getDouble("store_longitude")
-                            ));
-                            Toast.makeText(context, "Sizeda: " + cartCursorDataProviderArrayList.size(), Toast.LENGTH_SHORT).show();
-
-                        }
-
-                    }
-                    Toast.makeText(context, "Sizedb: " + cartCursorDataProviderArrayList.size(), Toast.LENGTH_SHORT).show();
-
-                    //createStoreDistanceArrayList();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(context).add(stringRequest);
-    }
-*/
-        
-
 
     //fetching products from server.
     private void loadAlgorithmProducts() {
+        createCartItemsArray();
 
-        cartDbHelper = new CartDbHelper(context);
-        sqLiteDatabase = cartDbHelper.getReadableDatabase();
-        cursor = cartDbHelper.getInformations(sqLiteDatabase);
         cartCursorDataProviderArrayList = new ArrayList<>();
 
-        if (cursor.moveToFirst()) {
-            do {
-                final String prodName, prodDes, prodStoreName;
-                prodName = cursor.getString(0);
-                prodDes = cursor.getString(1);
-                prodCount = cursor.getString(2);
-                prodStoreName = cursor.getString(3);
-                //Toast.makeText(context, "Name: " + prodName + " prodDes: " + prodDes, Toast.LENGTH_SHORT).show();
-                StringRequest stringRequest = new StringRequest(Request.Method.GET, Config.URL_ALGORITHMPRODUCTS, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-                            for (i = 0; i < array.length(); i++) {
+         StringRequest stringRequest = new StringRequest(Request.Method.GET, Config.URL_ALGORITHMPRODUCTS, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        //converting the string to json array object
+                        JSONArray array = new JSONArray(response);
+                        for (i = 0; i < array.length(); i++) {
 
-                                JSONObject product = array.getJSONObject(i);
+                            JSONObject product = array.getJSONObject(i);
+                            for (int inde = 0; inde < cartItemDataProviderArrayList.size(); inde++) {
+                                prodName = cartItemDataProviderArrayList.get(inde).getProductName();
+                                prodDes = cartItemDataProviderArrayList.get(inde).getProductDes();
+                                prodCount = cartItemDataProviderArrayList.get(inde).getProductCount();
 
                                 if (product.getString("product_name").equals(prodName) && product.getString("product_description").equals(prodDes)) {
                                     cartCursorDataProviderArrayList.add(new CartCursorDataProvider(
@@ -392,37 +314,29 @@ public class MapFragmentMany extends Fragment implements OnMapReadyCallback, Goo
                                             product.getString("product_cost"),
                                             product.getString("quantity_at_hand"),
                                             product.getString("store_name"),
+                                            prodCount,
                                             product.getDouble("store_latitude"),
                                             product.getDouble("store_longitude")
                                     ));
-
                                 }
-
                             }
-                            createStoreDistanceArrayList();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
+                        createStoreDistanceArrayList();
+                    }catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
+                }
+            },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
 
-                            }
-                        });
-
-                //adding our stringrequest to queue
-                Volley.newRequestQueue(context).add(stringRequest);
-
-            } while (cursor.moveToNext());
-        }
-        else{
-            Toast.makeText(context, "Your Cart is Empty....", Toast.LENGTH_SHORT).show();
-        }
-        createStoreDistanceArrayList();
-
+                        }
+                    });
+            //adding our stringrequest to queue
+            Volley.newRequestQueue(context).add(stringRequest);
     }
+
 
     public void createStoreDistanceArrayList() {
         storeDistancesDataProviderArrayList = new ArrayList<>();
@@ -441,14 +355,14 @@ public class MapFragmentMany extends Fragment implements OnMapReadyCallback, Goo
                 storeDistancesDataProviderArrayList.add(new StoreDistancesDataProvider(
                         cartCursorDataProviderArrayList.get(i).getStoreName(),
                         distanceInKms
-
                 ));
             } else {
                 Toast.makeText(context, "Cordinates Empty", Toast.LENGTH_SHORT).show();
             }
-
         }
         Toast.makeText(context, "Distance:" + storeDistancesDataProviderArrayList.size(), Toast.LENGTH_SHORT).show();
+
+
         createCartOptimizationArrayList();
     }
 
@@ -458,10 +372,11 @@ public class MapFragmentMany extends Fragment implements OnMapReadyCallback, Goo
         for (i = 0; i < cartCursorDataProviderArrayList.size() && i< storeDistancesDataProviderArrayList.size();  i++) {
             storeDistance = storeDistancesDataProviderArrayList.get(i).getStoreDistance();
             productCost = Double.valueOf(cartCursorDataProviderArrayList.get(i).getProductCost());
+            prodCount = cartCursorDataProviderArrayList.get(i).getProductCount();
             transportCost = 0.0;
             totalCost = 0.0;
             transportCost = storeDistance * 10.0;
-            totalCost = transportCost + productCost;
+            totalCost = transportCost + (productCost * Double.valueOf(prodCount));
             cartOptimizationDataProviderArrayList.add(new CartOptimizationDataProvider(
                     cartCursorDataProviderArrayList.get(i).getProductName(),
                     cartCursorDataProviderArrayList.get(i).getProductDes(),
@@ -472,10 +387,10 @@ public class MapFragmentMany extends Fragment implements OnMapReadyCallback, Goo
                     cartCursorDataProviderArrayList.get(i).getStoreLatitude(),
                     cartCursorDataProviderArrayList.get(i).getStoreLongitude(),
                     storeDistance
-
             ));
         }
-        for ( i = 0; i< cartOptimizationDataProviderArrayList.size(); i++){
+        finalOptimizedDataProviderArrayList();
+       for ( i = 0; i< cartOptimizationDataProviderArrayList.size(); i++){
             Toast.makeText(context, "Prodname: " + cartOptimizationDataProviderArrayList.get(i).getProductName()
                      + "\n" +"ProdDes: " + cartOptimizationDataProviderArrayList.get(i).getProductDes()
                             + "\n" +"storeName: " + cartOptimizationDataProviderArrayList.get(i).getStoreName()
@@ -485,10 +400,66 @@ public class MapFragmentMany extends Fragment implements OnMapReadyCallback, Goo
                             + "\n"+"lat: " + cartOptimizationDataProviderArrayList.get(i).getOstoreLatitude()
                             + "\n"+"lng: " + cartOptimizationDataProviderArrayList.get(i).getOstoreLongitude()
                     , Toast.LENGTH_SHORT).show();
-
         }
     }
+
+
+    private void finalOptimizedDataProviderArrayList(){
+        String productName, storeName, storeDStore;
+
+
+    /*    for(i=0; i<storeDistancesDataProviderArrayList.size(); i++){
+            storeDStore = storeDistancesDataProviderArrayList.get(i).getStoreName();
+
+            for(i = 0; i< cartOptimizationDataProviderArrayList.size(); i++) {
+                prodStoreName = cartOptimizationDataProviderArrayList.get(i).getStoreName();
+                prodName = cartOptimizationDataProviderArrayList.get(i).getProductName();
+
+                if (storeDStore.equals(prodStoreName)) {
+
+                    for (int j = 0; j < cartOptimizationDataProviderArrayList.size(); j++) {
+                        productName = cartOptimizationDataProviderArrayList.get(j).getProductName();
+                        storeName = cartOptimizationDataProviderArrayList.get(j).getStoreName();
+                    }
+
+                }
+                else{
+                    Toast.makeText(context, "Store Misses a product:", Toast.LENGTH_SHORT).show();
+            }
+
+            }
+        }*/
+
+
+        for(i = 0; i< cartOptimizationDataProviderArrayList.size(); i++) {
+            prodStoreName = cartOptimizationDataProviderArrayList.get(i).getStoreName();
+            prodName = cartOptimizationDataProviderArrayList.get(i).getProductName();
+           // Toast.makeText(context, "StoreName: " + prodStoreName + "\n" + " ProductName: " + prodName, Toast.LENGTH_SHORT).show();
+
+
+            for (int j = 0; j < cartOptimizationDataProviderArrayList.size(); j++) {
+                productName = cartOptimizationDataProviderArrayList.get(j).getProductName();
+                storeName = cartOptimizationDataProviderArrayList.get(j).getStoreName();
+                 //Toast.makeText(context, "StoreName: " + prodStoreName + " " + storeName + "\n" + " ProductName: " + prodName + " " + productName, Toast.LENGTH_SHORT).show();
+
+
+                if ( !productName.equals(prodName) && storeName.equals(prodStoreName)) {
+                    Toast.makeText(context, "Store Found: " + storeName , Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+
+
 }
 
 
-    
+/*for(i=0; i<storeDistancesDataProviderArrayList.size(); i++){
+        Toast.makeText(context, "Store Name: " + storeDistancesDataProviderArrayList.get(i).getStoreName()
+        +"\n"  + "Distance: " + storeDistancesDataProviderArrayList.get(i).getStoreDistance(), Toast.LENGTH_SHORT).show();
+        }*/
+
+
+
+
