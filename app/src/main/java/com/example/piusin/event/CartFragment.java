@@ -163,10 +163,14 @@ public class CartFragment extends Fragment implements View.OnClickListener{
         Bundle bundle = new Bundle();
         switch(v.getId()){
             case R.id.btn_back_toShop:
-                ProductsFragment productsFragment = new ProductsFragment();
+                /*ProductsFragment productsFragment = new ProductsFragment();
                 bundle.putString("storeName", "all");
                 productsFragment.setArguments(bundle);
                 fragmentManager.beginTransaction().replace(R.id.main_container, new HomeFragment()).addToBackStack(null).commit();
+               */
+                MapFragmentMany2 mapFragmentMany2 = new MapFragmentMany2();
+                fragmentManager.beginTransaction().replace(R.id.main_container, mapFragmentMany2).addToBackStack(null).commit();
+
                 break;
 
             case R.id.btn_check_out:

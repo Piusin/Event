@@ -17,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.piusin.event.ManyMapsDataProvidersPackage.AllProductsDataProvider;
 import com.example.piusin.event.ManyMapsDataProvidersPackage.CartCursorDataProvider;
 import com.example.piusin.event.ManyMapsDataProvidersPackage.CartItemDataProvider;
 import com.example.piusin.event.ManyMapsDataProvidersPackage.CartOptimizationDataProvider;
@@ -84,6 +86,8 @@ public class MapFragmentMany extends Fragment implements OnMapReadyCallback, Goo
     private ArrayList<StoreDistancesDataProvider> storeDistancesDataProviderArrayList;
     private ArrayList<CartOptimizationDataProvider> cartOptimizationDataProviderArrayList;
     private ArrayList<CartItemDataProvider> cartItemDataProviderArrayList;
+    private ArrayList<AllProductsDataProvider> allProductsArrayList;
+    private ArrayList<AllProductsDataProvider> allProductsArrayList2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -321,7 +325,22 @@ public class MapFragmentMany extends Fragment implements OnMapReadyCallback, Goo
                                 }
                             }
                         }
-                        createStoreDistanceArrayList();
+                       // Log.e(cartCursorDataProviderArrayList.get(0))
+
+
+                        for ( i = 0; i< cartCursorDataProviderArrayList.size(); i++){
+                            Toast.makeText(context, "Prodname: " + cartCursorDataProviderArrayList.get(i).getProductName()
+                                            + "\n" +"ProdDes: " + cartCursorDataProviderArrayList.get(i).getProductDes()
+                                            + "\n" +"storeName: " + cartCursorDataProviderArrayList.get(i).getStoreName()
+                                            + "\n"+"ProdCost: " + cartCursorDataProviderArrayList.get(i).getProductCost()
+                                            + "\n"+"Quantity: " + cartCursorDataProviderArrayList.get(i).getQuantityAtHand()
+                                            + "\n"+"Product Count: " + cartCursorDataProviderArrayList.get(i).getProductCount()
+                                            + "\n"+"lat: " + cartCursorDataProviderArrayList.get(i).getStoreLatitude()
+                                            + "\n"+"lng: " + cartCursorDataProviderArrayList.get(i).getStoreLongitude()
+                                    , Toast.LENGTH_SHORT).show();
+                        }
+
+                        //createStoreDistanceArrayList();
                     }catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -336,6 +355,7 @@ public class MapFragmentMany extends Fragment implements OnMapReadyCallback, Goo
             //adding our stringrequest to queue
             Volley.newRequestQueue(context).add(stringRequest);
     }
+
 
 
     public void createStoreDistanceArrayList() {
@@ -376,7 +396,7 @@ public class MapFragmentMany extends Fragment implements OnMapReadyCallback, Goo
             transportCost = 0.0;
             totalCost = 0.0;
             transportCost = storeDistance * 10.0;
-            totalCost = transportCost + (productCost * Double.valueOf(prodCount));
+            totalCost = (productCost * Double.valueOf(prodCount));
             cartOptimizationDataProviderArrayList.add(new CartOptimizationDataProvider(
                     cartCursorDataProviderArrayList.get(i).getProductName(),
                     cartCursorDataProviderArrayList.get(i).getProductDes(),
@@ -389,7 +409,8 @@ public class MapFragmentMany extends Fragment implements OnMapReadyCallback, Goo
                     storeDistance
             ));
         }
-        finalOptimizedDataProviderArrayList();
+
+      //  finalOptimizedDataProviderArrayList();
        for ( i = 0; i< cartOptimizationDataProviderArrayList.size(); i++){
             Toast.makeText(context, "Prodname: " + cartOptimizationDataProviderArrayList.get(i).getProductName()
                      + "\n" +"ProdDes: " + cartOptimizationDataProviderArrayList.get(i).getProductDes()
@@ -404,62 +425,237 @@ public class MapFragmentMany extends Fragment implements OnMapReadyCallback, Goo
     }
 
 
+
+
+
+
+
     private void finalOptimizedDataProviderArrayList(){
-        String productName, storeName, storeDStore;
+        String productName1, storeName1;
+
+        //Toast.makeText(context, "Pius: " + cartItemDataProviderArrayList.size(), Toast.LENGTH_SHORT).show();
+
+        for(i=0; i<cartItemDataProviderArrayList.size(); i++){
+            productName1 = cartItemDataProviderArrayList.get(i).getProductName();
+
+           // Toast.makeText(context, "Name: " + productName1, Toast.LENGTH_SHORT).show();
+
+            for(int j =0; j<storeDistancesDataProviderArrayList.size(); j++){
+            storeName1 = storeDistancesDataProviderArrayList.get(j).getStoreName();
+
+               // Toast.makeText(context, "StoreName: " + storeName1, Toast.LENGTH_SHORT).show();
+
+                for(int x = 0; x< cartOptimizationDataProviderArrayList.size(); x++) {
+                    prodStoreName = cartOptimizationDataProviderArrayList.get(x).getStoreName();
+                    prodName = cartOptimizationDataProviderArrayList.get(x).getProductName();
+                    
+                    if(!productName1.equals(prodName) && storeName1.equals(prodStoreName)){
+                        Toast.makeText(context, "Found: " + storeName1, Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(context, "Remove Store: " + storeName1, Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+            
+            }
+
+        }
+
+    }
 
 
-    /*    for(i=0; i<storeDistancesDataProviderArrayList.size(); i++){
-            storeDStore = storeDistancesDataProviderArrayList.get(i).getStoreName();
+
+
+}
+
+/*
+*  //for two products.
+    private void hasTwoProducts(){
+        String productName1, productName2, storeName1;
+        productName1 = cartItemDataProviderArrayList.get(0).getProductName();
+        productName2 = cartItemDataProviderArrayList.get(1).getProductName();
+        allProductsArrayList = new ArrayList<>();
+        allProductsArrayList2 = new ArrayList<>();
+        Toast.makeText(context, "ProductName1: " + productName1 + "\n" + "Product name2: " + productName2, Toast.LENGTH_SHORT).show();
 
             for(i = 0; i< cartOptimizationDataProviderArrayList.size(); i++) {
-                prodStoreName = cartOptimizationDataProviderArrayList.get(i).getStoreName();
+                storeName1 = cartOptimizationDataProviderArrayList.get(i).getStoreName();
                 prodName = cartOptimizationDataProviderArrayList.get(i).getProductName();
 
-                if (storeDStore.equals(prodStoreName)) {
+                if (productName1.equals(prodName)){ //dealing with specific store
 
-                    for (int j = 0; j < cartOptimizationDataProviderArrayList.size(); j++) {
-                        productName = cartOptimizationDataProviderArrayList.get(j).getProductName();
-                        storeName = cartOptimizationDataProviderArrayList.get(j).getStoreName();
+                    for(int y = 0; y< cartOptimizationDataProviderArrayList.size(); y++) {
+                        prodStoreName = cartOptimizationDataProviderArrayList.get(y).getStoreName();
+                        prodName = cartOptimizationDataProviderArrayList.get(y).getProductName();
+                        if(productName2.equals(prodName) && storeName1.equals(prodStoreName)){
+
+                            for(int z = 0; z< cartOptimizationDataProviderArrayList.size(); z++){
+                                String prod = cartOptimizationDataProviderArrayList.get(z).getProductName();
+                                String store = cartOptimizationDataProviderArrayList.get(z).getStoreName();
+
+                                if(productName1.equals(prod) && store.equals(prodStoreName)){
+                                    allProductsArrayList2.add(new AllProductsDataProvider(
+                                            cartOptimizationDataProviderArrayList.get(z).getProductName(),
+                                            cartOptimizationDataProviderArrayList.get(z).getStoreName(),
+                                            cartOptimizationDataProviderArrayList.get(z).getProductCost(),
+                                            cartOptimizationDataProviderArrayList.get(z).getTransportCost(),
+                                            cartOptimizationDataProviderArrayList.get(z).getTotalCost(),
+                                            cartOptimizationDataProviderArrayList.get(z).getOstoreLatitude(),
+                                            cartOptimizationDataProviderArrayList.get(z).getOstoreLongitude()
+
+                                    ));
+                                }
+                                else if(productName2.equals(prodName) && storeName1.equals(prodStoreName)){
+                                    allProductsArrayList.add(new AllProductsDataProvider(
+                                            prodName,
+                                            storeName1,
+                                            cartOptimizationDataProviderArrayList.get(y).getProductCost(),
+                                            cartOptimizationDataProviderArrayList.get(y).getTransportCost(),
+                                            cartOptimizationDataProviderArrayList.get(y).getTotalCost(),
+                                            cartOptimizationDataProviderArrayList.get(y).getOstoreLatitude(),
+                                            cartOptimizationDataProviderArrayList.get(y).getOstoreLongitude()
+
+                                    ));
+                                }
+
+                            }
+
+
+
+                        }
+
+                        else{
+                            //Toast.makeText(context, "Lost it", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
+                   // Toast.makeText(context, "True", Toast.LENGTH_SHORT).show();
+                }else{
+                   // Toast.makeText(context, "Lost", Toast.LENGTH_SHORT).show();
                 }
-                else{
-                    Toast.makeText(context, "Store Misses a product:", Toast.LENGTH_SHORT).show();
-            }
+        }
+        Toast.makeText(context, "Fuck me" + allProductsArrayList.size(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Fuck me" + allProductsArrayList2.size(), Toast.LENGTH_SHORT).show();
 
-            }
-        }*/
 
+
+   for( i=0; i< allProductsArrayList.size(); i++){
+       totalCost = 0;
+       prodStoreName = allProductsArrayList.get(i).getStoreName();
+       for(int x = 0; x<allProductsArrayList.size(); x++){
+           if(allProductsArrayList.get(x).getStoreName().equals(prodStoreName))
+           totalCost = + allProductsArrayList.get(x).getTotalCost();
+       }
+       Toast.makeText(context, prodStoreName + " " + totalCost, Toast.LENGTH_SHORT).show();
+   }
+
+        for( i=0; i< allProductsArrayList2.size(); i++){
+            totalCost = 0;
+            prodStoreName = allProductsArrayList2.get(i).getStoreName();
+            for(int x = 0; x<allProductsArrayList2.size(); x++){
+                if(allProductsArrayList2.get(x).getStoreName().equals(prodStoreName))
+                    totalCost = + allProductsArrayList2.get(x).getTotalCost();
+            }
+            Toast.makeText(context, prodStoreName + " " + totalCost, Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+
+
+    //for three products.
+    private void hasThreeProducts(){
+        String productName1, productName2, productName3, storeName1;
+        productName1 = cartItemDataProviderArrayList.get(0).getProductName();
+        productName2 = cartItemDataProviderArrayList.get(1).getProductName();
+        productName3 = cartItemDataProviderArrayList.get(2).getProductName();
 
         for(i = 0; i< cartOptimizationDataProviderArrayList.size(); i++) {
-            prodStoreName = cartOptimizationDataProviderArrayList.get(i).getStoreName();
+            storeName1 = cartOptimizationDataProviderArrayList.get(i).getStoreName();
             prodName = cartOptimizationDataProviderArrayList.get(i).getProductName();
-           // Toast.makeText(context, "StoreName: " + prodStoreName + "\n" + " ProductName: " + prodName, Toast.LENGTH_SHORT).show();
 
+            if (productName1.equals(prodName)){ //dealing with specific store
 
-            for (int j = 0; j < cartOptimizationDataProviderArrayList.size(); j++) {
-                productName = cartOptimizationDataProviderArrayList.get(j).getProductName();
-                storeName = cartOptimizationDataProviderArrayList.get(j).getStoreName();
-                 //Toast.makeText(context, "StoreName: " + prodStoreName + " " + storeName + "\n" + " ProductName: " + prodName + " " + productName, Toast.LENGTH_SHORT).show();
+                for(int y = 0; y< cartOptimizationDataProviderArrayList.size(); y++) {
+                    prodStoreName = cartOptimizationDataProviderArrayList.get(y).getStoreName();
+                    prodName = cartOptimizationDataProviderArrayList.get(y).getProductName();
+                    if(productName2.equals(prodName) && storeName1.equals(prodStoreName)){
+                        //Toast.makeText(context, "Made it: " + storeName1, Toast.LENGTH_SHORT).show();
 
+                        for(int x = 0; x< cartOptimizationDataProviderArrayList.size(); x++) {
+                            prodStoreName = cartOptimizationDataProviderArrayList.get(x).getStoreName();
+                            prodName = cartOptimizationDataProviderArrayList.get(x).getProductName();
+                            if(productName3.equals(prodName) && storeName1.equals(prodStoreName)){
+                                Toast.makeText(context, "Made it : " + storeName1, Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(context, "Lost it", Toast.LENGTH_SHORT).show();
+                            }
+                        }
 
-                if ( !productName.equals(prodName) && storeName.equals(prodStoreName)) {
-                    Toast.makeText(context, "Store Found: " + storeName , Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(context, "Lost it", Toast.LENGTH_SHORT).show();
+                    }
                 }
+
+                Toast.makeText(context, "True", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(context, "Lost", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
 
 
-}
+    //for four products.
+    private void hasFourProducts(){
+        String productName1, productName2, productName3, productName4, storeName1;
+        productName1 = cartItemDataProviderArrayList.get(0).getProductName();
+        productName2 = cartItemDataProviderArrayList.get(1).getProductName();
+        productName3 = cartItemDataProviderArrayList.get(2).getProductName();
+        productName4 = cartItemDataProviderArrayList.get(3).getProductName();
 
+        for(i = 0; i< cartOptimizationDataProviderArrayList.size(); i++) {
+            storeName1 = cartOptimizationDataProviderArrayList.get(i).getStoreName();
+            prodName = cartOptimizationDataProviderArrayList.get(i).getProductName();
 
-/*for(i=0; i<storeDistancesDataProviderArrayList.size(); i++){
-        Toast.makeText(context, "Store Name: " + storeDistancesDataProviderArrayList.get(i).getStoreName()
-        +"\n"  + "Distance: " + storeDistancesDataProviderArrayList.get(i).getStoreDistance(), Toast.LENGTH_SHORT).show();
-        }*/
+            if (productName1.equals(prodName)){ //dealing with specific store
 
+                for(int y = 0; y< cartOptimizationDataProviderArrayList.size(); y++) {
+                    prodStoreName = cartOptimizationDataProviderArrayList.get(y).getStoreName();
+                    prodName = cartOptimizationDataProviderArrayList.get(y).getProductName();
+                    if(productName2.equals(prodName) && storeName1.equals(prodStoreName)){
+                        //Toast.makeText(context, "Made it: " + storeName1, Toast.LENGTH_SHORT).show();
 
+                        for(int x = 0; x< cartOptimizationDataProviderArrayList.size(); x++) {
+                            prodStoreName = cartOptimizationDataProviderArrayList.get(x).getStoreName();
+                            prodName = cartOptimizationDataProviderArrayList.get(x).getProductName();
+                            if(productName3.equals(prodName) && storeName1.equals(prodStoreName)){
+                                //Toast.makeText(context, "Made it : " + storeName1, Toast.LENGTH_SHORT).show();
+                                for(int z = 0; z< cartOptimizationDataProviderArrayList.size(); z++) {
+                                    prodStoreName = cartOptimizationDataProviderArrayList.get(z).getStoreName();
+                                    prodName = cartOptimizationDataProviderArrayList.get(z).getProductName();
+                                    if(productName4.equals(prodName) && storeName1.equals(prodStoreName)){
+                                        Toast.makeText(context, "Made it : " + storeName1, Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        Toast.makeText(context, "Lost it", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }else{
+                                Toast.makeText(context, "Lost it", Toast.LENGTH_SHORT).show();
+                            }
+                        }
 
+                    }else{
+                        Toast.makeText(context, "Lost it", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                Toast.makeText(context, "True", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(context, "Lost", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }*/
 
