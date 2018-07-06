@@ -96,6 +96,9 @@ public class CategoriesFragment extends Fragment implements SearchView.OnQueryTe
         if(bundle != null){
             storeName = bundle.getString("storeName");
             sendStore();
+            if(storeName.equals("")){
+                loadCategories();
+            }
         }
         else{
             loadCategories();

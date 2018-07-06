@@ -21,7 +21,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:background="@mipmap/cart"
+            android:background="@drawable/shopping_cart"
             android:foreground="?android:selectableItemBackground" />
 
         <TextView

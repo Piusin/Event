@@ -107,7 +107,9 @@ public class WhatsNewDes extends Fragment {
                                 product.getString("store_location"),
                                 product.getString("product_image"),
                                 product.getString("product_name"),
-                                product.getDouble("product_cost")
+                                product.getDouble("product_cost"),
+                                product.getString("store_latitude"),
+                                product.getString("store_longitude")
                         ));
 
                     }

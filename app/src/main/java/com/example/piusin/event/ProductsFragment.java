@@ -92,7 +92,6 @@ public class ProductsFragment extends Fragment  implements SearchView.OnQueryTex
         progressDialog = new ProgressDialog(context);
         fetchCount();
 
-
         //getting bundle data
         Bundle bundle = getArguments();
         if(bundle != null){

@@ -106,7 +106,9 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private void whatsNewView(WhatsNewViewHolder holder) {
         WhatsNewAdapter adapter = new WhatsNewAdapter(context,getWhatsNewData());
-        holder.recyclerView.setLayoutManager(new GridLayoutManager(context,2,VERTICAL,false));
+       // holder.recyclerView.setLayoutManager(new GridLayoutManager(context,2,VERTICAL,false));
+        holder.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+
         holder.recyclerView.setAdapter(adapter);
     }
 

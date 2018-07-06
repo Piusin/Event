@@ -1,7 +1,7 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/cardviewstyles"
-    android:layout_height="270dp"
+    android:layout_height="200dp"
     android:background="#FFFFFF"
     android:layout_margin="4dp"
     android:id="@+id/cardview_store"
@@ -9,7 +9,6 @@
     >
 
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -19,72 +18,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
             <ImageView
                 android:id="@+id/featuredstore_image"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:scaleType="center" />
-
+                android:scaleType="fitXY" />
 
             <TextView
-
                 android:id="@+id/featuredstore_name"
-
-                android:layout_width="wrap_content"
-
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_gravity="bottom"
-
-                android:layout_margin="8dp"
-
+                android:gravity="center"
+                android:layout_margin="3dp"
                 android:textColor="#fff"
-
-                android:text="Title"
-
+                android:textStyle="bold"
                 android:textSize="28sp" />
-
 
         </FrameLayout>
 
 
         <TextView
-
-            android:id="@+id/featuredstore_opentime"
-
-            android:layout_width="wrap_content"
-
-            android:layout_height="wrap_content"
-
-            android:layout_margin="8dp"
-
-            android:text="this is the description" />
-
-
-        <TextView
-
             android:id="@+id/featuredstore_location"
-
-            android:layout_width="wrap_content"
-
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:layout_margin="8dp"
-
-            android:text="2073/2/2" />
+            android:gravity="center"
+            android:layout_margin="3dp"
+             />
 
         <TextView
-
-            android:id="@+id/featuredstore_distance"
-
-            android:layout_width="wrap_content"
-
+            android:id="@+id/featuredstore_opentime"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:gravity="center"
+            />
 
-            android:layout_margin="8dp"
-
-            android:text="2073/2/2" />
+        <TextView
+            android:id="@+id/featuredstore_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            />
 
     </LinearLayout>
 

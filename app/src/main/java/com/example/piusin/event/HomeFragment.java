@@ -111,32 +111,32 @@ public class HomeFragment extends Fragment {
         singleHorizontals.add(
                 new FeaturedStoreDataProvider(
                         R.drawable.nakumatt,
-                        "Nakumatt",
-                        "7.50Am - 9.00Pm",
-                        "Bungoma",
+                        "Khetias Crossroads",
+                        "Open Hours: 7.50Am - 9.00Pm",
+                        "Location: Bungoma",
                         60000));
 
         singleHorizontals.add(
                 new FeaturedStoreDataProvider(
                         R.drawable.computer_store,
-                        "Kitheru",
-                        "8.00Am - 8.00Pm",
-                        "Nairobi",
+                        "Tesia Frontier",
+                        "Open Hours:8.00Am - 8.00Pm",
+                        "Location: Kisumu",
                         60000));
 
         singleHorizontals.add(
                 new FeaturedStoreDataProvider(
                         R.drawable.khetias,
-                        "Khetias",
-                        "9.00Am - 11.00Pm",
-                        "Thika",
+                        "Naivas Bandap",
+                        "Open Hours:9.00Am - 11.00Pm",
+                        "Location: Eldoret",
                         60000));
         singleHorizontals.add(
                 new FeaturedStoreDataProvider(
                         R.drawable.arrow,
+                        "",
+                        "",
                         "More",
-                        "",
-                        "",
                         0));
        // Toast.makeText(context, "Supermart Has: " + singleHorizontals, Toast.LENGTH_SHORT).show();
 
@@ -300,7 +300,7 @@ public class HomeFragment extends Fragment {
                 ));
         singleDiscounts.add(
                 new DiscountMainDataProvider(
-                        "All",
+                        "More",
                         R.drawable.arrow
                 ));
 
@@ -313,15 +313,23 @@ public class HomeFragment extends Fragment {
         ArrayList<WhatsNewDataProvider> singleWhatsNew = new ArrayList<>();
         singleWhatsNew.add(
                 new WhatsNewDataProvider(
-                        R.drawable.macbook
+                        R.drawable.nikon_camera,
+                        "Cameras"
                 ));
         singleWhatsNew.add(
                 new WhatsNewDataProvider(
-                        R.drawable.dellinspiron
+                        R.drawable.phone,
+                        "Phones"
                 ));
         singleWhatsNew.add(
                 new WhatsNewDataProvider(
-                        R.drawable.surface
+                        R.drawable.utensils,
+                        "Utensils"
+                ));
+        singleWhatsNew.add(
+                new WhatsNewDataProvider(
+                        R.drawable.arrow,
+                        "More"
                 ));
         return singleWhatsNew;
     }

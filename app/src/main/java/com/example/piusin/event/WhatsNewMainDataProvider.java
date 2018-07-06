@@ -14,8 +14,9 @@ public class WhatsNewMainDataProvider {
     private String productImage;
     private String productName;
     private double productPrice;
+    private String latitude, longitude;
 
-    public WhatsNewMainDataProvider(String categoryName, String productDescription, String storeName, String storeLocation, String productImage, String productName, double productPrice) {
+    public WhatsNewMainDataProvider(String categoryName, String productDescription, String storeName, String storeLocation, String productImage, String productName, double productPrice, String latitude, String longitude) {
         this.categoryName = categoryName;
         this.productDescription = productDescription;
         this.storeName = storeName;
@@ -23,6 +24,8 @@ public class WhatsNewMainDataProvider {
         this.productImage = productImage;
         this.productName = productName;
         this.productPrice = productPrice;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getCategoryName() {
@@ -51,5 +54,13 @@ public class WhatsNewMainDataProvider {
 
     public double getProductPrice() {
         return productPrice;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
     }
 }

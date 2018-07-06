@@ -180,7 +180,10 @@ public class MainActivity extends AppCompatActivity implements SweetAlertClass{
                     return true;
 
                 case R.id.account:
-                    Toast.makeText(this, "Account Clicked", Toast.LENGTH_SHORT).show();
+                    fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.main_container, new AccountFragment());
+                    fragmentTransaction.commit();
+                    getSupportActionBar().setTitle("Account");
                     return true;
 
                 case R.id.overflow_cart:

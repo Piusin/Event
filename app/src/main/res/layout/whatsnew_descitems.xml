@@ -20,14 +20,14 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="270dp"
+                android:layout_height="278dp"
                 android:id="@+id/desImage"
                 android:src="@drawable/macbook"/>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="170dp"
+                android:layout_height="175dp"
                 android:padding="5dp"
                 android:layout_margin="8dp"
                 android:orientation="vertical">
@@ -59,23 +59,43 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:layout_marginTop="5dp"
                     android:id="@+id/whatsnew_des"
                     android:text="Descriptions"/>
 
                 </LinearLayout>
 
-            <Button
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="Buy Now"
-                android:background="#003300"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:id="@+id/btnNewB"
-               />
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:text="Buy Now"
+                    android:background="#003300"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:id="@+id/btnNewB"
+                    />
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:text="Locate"
+                    android:background="#006666"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:id="@+id/btnNewLocate"
+                    />
+
+            </LinearLayout>
+
+
 
             </LinearLayout>
 

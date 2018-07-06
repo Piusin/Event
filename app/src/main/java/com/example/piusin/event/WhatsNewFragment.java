@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -44,6 +45,8 @@ public class WhatsNewFragment extends Fragment {
     //private static final String URL_PRODUCTS  = "http://192.168.101.1/SuperMart/newProducts.php";
     String categoryName, storeName;
     ProgressDialog progressDialog;
+    private Bundle bundle;
+    private String category;
 
     RecyclerView recyclerView;
     Context context = null;
@@ -78,6 +81,16 @@ public class WhatsNewFragment extends Fragment {
 
         productDataProviderList = new ArrayList<>();
 
+        bundle = new Bundle();
+        bundle = getArguments();
+
+        if(bundle.isEmpty()){
+            Toast.makeText(context, "No Category Selected", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            category = bundle.getString("categoryName");
+        }
+
         loadProducts();
         return view;
     }
@@ -103,14 +116,9 @@ public class WhatsNewFragment extends Fragment {
                     for (int i = 0; i < array.length(); i++) {
 
                         JSONObject product = array.getJSONObject(i);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("productDescription", product.getString("product_description"));
-                        bundle.putString("storeName", product.getString("store_name"));
-                        bundle.putString("productImage", product.getString("product_image"));
-                        bundle.putDouble("productCost", product.getDouble("product_cost"));
-                        bundle.putString("productName", product.getString("product_name"));
 
                             //adding the product to product list
+                        if(product.getString("category_name").equals(category))
                             productDataProviderList.add(new WhatsNewMainDataProvider(
                                     product.getString("category_name"),
                                     product.getString("product_description"),
@@ -118,7 +126,23 @@ public class WhatsNewFragment extends Fragment {
                                     product.getString("store_location"),
                                     product.getString("product_image"),
                                     product.getString("product_name"),
-                                    product.getDouble("product_cost")
+                                    product.getDouble("product_cost"),
+                                    product.getString("store_latitude"),
+                                    product.getString("store_longitude")
+                            ));
+
+                        //for all products
+                        if(category.equals("More"))
+                            productDataProviderList.add(new WhatsNewMainDataProvider(
+                                    product.getString("category_name"),
+                                    product.getString("product_description"),
+                                    product.getString("store_name"),
+                                    product.getString("store_location"),
+                                    product.getString("product_image"),
+                                    product.getString("product_name"),
+                                    product.getDouble("product_cost"),
+                                    product.getString("store_latitude"),
+                                    product.getString("store_longitude")
                             ));
 
                     }

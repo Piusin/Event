@@ -183,7 +183,7 @@ public class FragmentDiscounts extends Fragment {
             Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show();
         }
 
-        if(categoryName.equals("All")){
+        if(categoryName.equals("More")){
             loadDiscounts();
             loadvalue = 1;
         }

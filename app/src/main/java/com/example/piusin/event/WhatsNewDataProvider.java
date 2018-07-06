@@ -6,13 +6,18 @@ package com.example.piusin.event;
 
 public class WhatsNewDataProvider {
     private int whatsNewImage;
+    private String prodName;
 
-    public WhatsNewDataProvider(int whatsNewImage) {
+    public WhatsNewDataProvider(int whatsNewImage, String prodName) {
         this.whatsNewImage = whatsNewImage;
+        this.prodName = prodName;
     }
 
     public int getWhatsNewImage() {
         return whatsNewImage;
     }
 
+    public String getProdName() {
+        return prodName;
+    }
 }

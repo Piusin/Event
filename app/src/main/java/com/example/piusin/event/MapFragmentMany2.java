@@ -86,7 +86,8 @@ public class MapFragmentMany2 extends Fragment implements OnMapReadyCallback, Go
     String prodName, prodDes, prodStoreName, middle, prodCount;
     String [] stores = {"Naivas Bandap", "Tesia Frontier", "Tesia Supermarket", "Khetias Centre-point", "Khetias Crossroads", "Naivas Supermarket",
                           "Nakumatt Supermarket", "Tesia Junction"};
-    double tcNaivasBandap=0 , tcTesiaFrontier=0, tcTesiaSupermarket=0;
+    double tcNaivasBandap=0 , tcTesiaFrontier=0, tcTesiaSupermarket=0, tcKhetiasCPoint=0, tcKhetiasCRoads=0, tcNaivasSupermarket=0,
+                             tcNakumattSupermarket=0, tcTesiaJunction=0;
     int cartSize;
 
     private ArrayList<CartItemDataProvider> cartItemDataProviderArrayList;
@@ -104,6 +105,12 @@ public class MapFragmentMany2 extends Fragment implements OnMapReadyCallback, Go
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
+        optimizednaivasBandap = new ArrayList<>();
+        optimizedtesiaFrontier = new ArrayList<>();
+        optimizedtesiaSupermarket = new ArrayList<>();
+        optimizedkhetiasCentrepoint = new ArrayList<>();
+        optimizedKhetiascrossroads = new ArrayList<>();
+        optimizedNakumatt = new ArrayList<>();
 
         loadAlgorithmProducts();
         return view;
@@ -451,7 +458,7 @@ public class MapFragmentMany2 extends Fragment implements OnMapReadyCallback, Go
 
                     //getstoreWith all products
                     if(naivasBandap.size() == cartSize){
-                        optimizednaivasBandap = new ArrayList<>();
+                     //   optimizednaivasBandap = new ArrayList<>();
                         for(i=0; i<naivasBandap.size(); i++){
                             storeLat = naivasBandap.get(i).getStoreLatitude();
                             storeLng = naivasBandap.get(i).getStoreLongitude();
@@ -483,7 +490,7 @@ public class MapFragmentMany2 extends Fragment implements OnMapReadyCallback, Go
 
 
                     if(tesiaFrontier.size() == cartSize){ //start of tesia  frontier
-                        optimizedtesiaFrontier = new ArrayList<>();
+                        //optimizedtesiaFrontier = new ArrayList<>();
                         for(i=0; i<tesiaFrontier.size(); i++){
                             storeLat = tesiaFrontier.get(i).getStoreLatitude();
                             storeLng = tesiaFrontier.get(i).getStoreLongitude();
@@ -516,7 +523,7 @@ public class MapFragmentMany2 extends Fragment implements OnMapReadyCallback, Go
 
                     if(tesiaSupermarket.size() == cartSize) //start of tesia supermarket
                     {
-                        optimizedtesiaSupermarket = new ArrayList<>();
+                        //optimizedtesiaSupermarket = new ArrayList<>();
                         for(i=0; i<tesiaSupermarket.size(); i++){
                             storeLat = tesiaSupermarket.get(i).getStoreLatitude();
                             storeLng = tesiaSupermarket.get(i).getStoreLongitude();
@@ -547,7 +554,115 @@ public class MapFragmentMany2 extends Fragment implements OnMapReadyCallback, Go
                         }
                     } //end of tesiaSupermarket
 
-                 createfinalOptimizedArrayList();
+
+
+                    if(khetiasCentrePoint.size() == cartSize) //start of tesia supermarket
+                    {
+                        //optimizedkhetiasCentrepoint = new ArrayList<>();
+                        for(i=0; i<khetiasCentrePoint.size(); i++){
+                            storeLat = khetiasCentrePoint.get(i).getStoreLatitude();
+                            storeLng = khetiasCentrePoint.get(i).getStoreLongitude();
+                            fProdCount = Double.valueOf(khetiasCentrePoint.get(i).getProductCount());
+                            productCost = Double.valueOf(khetiasCentrePoint.get(i).getProductCost());
+                            if (startLatitude != null && startLongitude != null && storeLat != null && storeLng != null) {
+                                float[] results = new float[10];
+                                Location.distanceBetween(startLatitude, startLongitude, storeLat, storeLng, results);
+                                distanceInKms = results[0] / 1000;
+                                transportCost = 0.0;
+                                transportCost = Math.round(distanceInKms * costPerKm);
+
+                            } else {
+                                Toast.makeText(context, "Cordinates Empty", Toast.LENGTH_SHORT).show();
+                            }
+
+                            totalCost = 0.0;
+                            totalCost = + ((productCost*fProdCount) + transportCost);
+
+                            optimizedkhetiasCentrepoint.add(new MapStoreDataProvider(
+                                    khetiasCentrePoint.get(i).getProductName(),
+                                    stores[3],
+                                    totalCost,
+                                    transportCost,
+                                    storeLat,
+                                    storeLng
+                            ));
+                        }
+                    }// end of khetiascentre point
+
+
+
+                    if(khetiasCrossroads.size() == cartSize) //start of khetias crossroads
+                    {
+                        //optimizedKhetiascrossroads = new ArrayList<>();
+                        for(i=0; i<khetiasCrossroads.size(); i++){
+                            storeLat = khetiasCrossroads.get(i).getStoreLatitude();
+                            storeLng = khetiasCrossroads.get(i).getStoreLongitude();
+                            fProdCount = Double.valueOf(khetiasCrossroads.get(i).getProductCount());
+                            productCost = Double.valueOf(khetiasCrossroads.get(i).getProductCost());
+                            if (startLatitude != null && startLongitude != null && storeLat != null && storeLng != null) {
+                                float[] results = new float[10];
+                                Location.distanceBetween(startLatitude, startLongitude, storeLat, storeLng, results);
+                                distanceInKms = results[0] / 1000;
+                                transportCost = 0.0;
+                                transportCost = Math.round(distanceInKms * costPerKm);
+
+                            } else {
+                                Toast.makeText(context, "Cordinates Empty", Toast.LENGTH_SHORT).show();
+                            }
+
+                            totalCost = 0.0;
+                            totalCost = + ((productCost*fProdCount) + transportCost);
+
+                            optimizedKhetiascrossroads.add(new MapStoreDataProvider(
+                                    khetiasCrossroads.get(i).getProductName(),
+                                    stores[4],
+                                    totalCost,
+                                    transportCost,
+                                    storeLat,
+                                    storeLng
+                            ));
+                        }
+                    }// end of khetiascrossroads
+
+
+                    if(nakumattSupermarket.size() == cartSize) //start of nakumatt supermarket
+                    {
+                       // optimizedNakumatt = new ArrayList<>();
+                        for(i=0; i<nakumattSupermarket.size(); i++){
+                            storeLat = nakumattSupermarket.get(i).getStoreLatitude();
+                            storeLng = nakumattSupermarket.get(i).getStoreLongitude();
+                            fProdCount = Double.valueOf(nakumattSupermarket.get(i).getProductCount());
+                            productCost = Double.valueOf(nakumattSupermarket.get(i).getProductCost());
+                            if (startLatitude != null && startLongitude != null && storeLat != null && storeLng != null) {
+                                float[] results = new float[10];
+                                Location.distanceBetween(startLatitude, startLongitude, storeLat, storeLng, results);
+                                distanceInKms = results[0] / 1000;
+                                transportCost = 0.0;
+                                transportCost = Math.round(distanceInKms * costPerKm);
+
+                            } else {
+                                Toast.makeText(context, "Cordinates Empty", Toast.LENGTH_SHORT).show();
+                            }
+
+                            totalCost = 0.0;
+                            totalCost = + ((productCost*fProdCount) + transportCost);
+
+                            optimizedNakumatt.add(new MapStoreDataProvider(
+                                    nakumattSupermarket.get(i).getProductName(),
+                                    stores[6],
+                                    totalCost,
+                                    transportCost,
+                                    storeLat,
+                                    storeLng
+                            ));
+                        }
+                    }// end of nakumatt supermarket
+
+
+
+
+
+                    createfinalOptimizedArrayList();
                     //createStoreDistanceArrayList();
                 }catch (JSONException e) {
                     e.printStackTrace();
@@ -568,23 +683,38 @@ public class MapFragmentMany2 extends Fragment implements OnMapReadyCallback, Go
 
     private void createfinalOptimizedArrayList(){
 
+
         for(i =0; i<optimizednaivasBandap.size(); i++){
             tcNaivasBandap = tcNaivasBandap + optimizednaivasBandap.get(i).getTotalCost();
         }
-
         for(i =0; i<optimizedtesiaFrontier.size(); i++){
             tcTesiaFrontier = tcTesiaFrontier + optimizedtesiaFrontier.get(i).getTotalCost();
         }
         for(i =0; i<optimizedtesiaSupermarket.size(); i++){
             tcTesiaSupermarket = tcTesiaSupermarket + optimizedtesiaSupermarket.get(i).getTotalCost();
         }
-
-        if(tcNaivasBandap > 0 && tcNaivasBandap <= tcTesiaFrontier && tcNaivasBandap<= tcTesiaSupermarket){
-            //returm Naiva Bandap
-            Toast.makeText(context, "1", Toast.LENGTH_SHORT).show();
+        for(i =0; i<optimizedkhetiasCentrepoint.size(); i++){
+            tcKhetiasCPoint = tcKhetiasCPoint + optimizedkhetiasCentrepoint.get(i).getTotalCost();
+        }
+        for(i =0; i<optimizedKhetiascrossroads.size(); i++){
+            tcKhetiasCRoads = tcKhetiasCRoads + optimizedKhetiascrossroads.get(i).getTotalCost();
+        }
+        for(i =0; i<optimizedNakumatt.size(); i++){
+            tcNakumattSupermarket = tcNakumattSupermarket + optimizedNakumatt.get(i).getTotalCost();
         }
 
-        if(tcTesiaFrontier > 0 && tcTesiaFrontier <= tcNaivasBandap && tcTesiaFrontier<= tcTesiaSupermarket){
+        if(tcNaivasBandap > 0 && tcNaivasBandap <= tcTesiaFrontier && tcNaivasBandap<= tcTesiaSupermarket && tcNaivasBandap<= tcKhetiasCPoint && tcNaivasBandap<= tcKhetiasCRoads && tcNaivasBandap<= tcNakumattSupermarket){
+            //returm Naivas Bandap
+            endLatitude = optimizednaivasBandap.get(0).getLatitude();
+            endLongitude = optimizednaivasBandap.get(0).getLongitude();
+            prodStoreName = optimizednaivasBandap.get(0).getStoreName();
+            finalCost = tcNaivasBandap;
+            transportCost = (optimizednaivasBandap.get(0).getTransportCost()) * 2;
+            finalProdCost = finalCost - transportCost;
+            calculateDistanceAndDuration();
+        }
+
+        if(tcTesiaFrontier > 0 && tcTesiaFrontier <= tcNaivasBandap && tcTesiaFrontier<= tcTesiaSupermarket && tcTesiaFrontier<= tcKhetiasCPoint && tcTesiaFrontier<= tcKhetiasCRoads && tcTesiaFrontier<= tcNakumattSupermarket){
             //returm Tesia Frontier
             endLatitude = optimizedtesiaFrontier.get(0).getLatitude();
             endLongitude = optimizedtesiaFrontier.get(0).getLongitude();
@@ -593,12 +723,11 @@ public class MapFragmentMany2 extends Fragment implements OnMapReadyCallback, Go
             transportCost = (optimizedtesiaFrontier.get(0).getTransportCost()) * 2;
             finalProdCost = finalCost - transportCost;
             calculateDistanceAndDuration();
-        }
+        }// end of tesiaFrontie
 
 
-        if(tcTesiaSupermarket > 0 && tcTesiaSupermarket <= tcNaivasBandap && tcTesiaSupermarket<= tcTesiaFrontier){
+        if(tcTesiaSupermarket > 0 && tcTesiaSupermarket <= tcNaivasBandap && tcTesiaSupermarket<= tcTesiaFrontier && tcNaivasBandap<= tcKhetiasCPoint && tcNaivasBandap<= tcKhetiasCRoads && tcNaivasBandap<= tcNakumattSupermarket){
             //returm Tesia Supermartket
-            Toast.makeText(context, "2", Toast.LENGTH_SHORT).show();
             endLatitude = optimizedtesiaSupermarket.get(0).getLatitude();
             endLongitude = optimizedtesiaSupermarket.get(0).getLongitude();
             prodStoreName = optimizedtesiaSupermarket.get(0).getStoreName();
@@ -607,7 +736,42 @@ public class MapFragmentMany2 extends Fragment implements OnMapReadyCallback, Go
             finalProdCost = finalCost - transportCost;
             calculateDistanceAndDuration();
 
-        }
+        }//end of tesia Supermarket
+
+        if(tcKhetiasCPoint > 0 && tcKhetiasCPoint<= tcTesiaSupermarket && tcKhetiasCPoint <= tcNaivasBandap && tcKhetiasCPoint<= tcTesiaFrontier && tcKhetiasCPoint<= tcKhetiasCRoads && tcKhetiasCPoint<= tcNakumattSupermarket){
+            //returm Khetias Cpoint
+            endLatitude = optimizedkhetiasCentrepoint.get(0).getLatitude();
+            endLongitude = optimizedkhetiasCentrepoint.get(0).getLongitude();
+            prodStoreName = optimizedkhetiasCentrepoint.get(0).getStoreName();
+            finalCost = tcKhetiasCPoint;
+            transportCost = (optimizedkhetiasCentrepoint.get(0).getTransportCost()) * 2;
+            finalProdCost = finalCost - transportCost;
+            calculateDistanceAndDuration();
+
+        } //end of khetias center point
+
+        if(tcKhetiasCRoads > 0 &&  tcKhetiasCRoads <= tcKhetiasCPoint && tcKhetiasCRoads<= tcTesiaSupermarket && tcKhetiasCRoads <= tcNaivasBandap && tcKhetiasCRoads<= tcTesiaFrontier && tcKhetiasCRoads<= tcNakumattSupermarket){
+            //returm Khetias Croads
+            endLatitude = optimizedKhetiascrossroads.get(0).getLatitude();
+            endLongitude = optimizedKhetiascrossroads.get(0).getLongitude();
+            prodStoreName = optimizedKhetiascrossroads.get(0).getStoreName();
+            finalCost = tcKhetiasCRoads;
+            transportCost = (optimizedKhetiascrossroads.get(0).getTransportCost()) * 2;
+            finalProdCost = finalCost - transportCost;
+            calculateDistanceAndDuration();
+        }//end of khetias crossroads
+
+
+        if(tcNakumattSupermarket > 0 &&  tcNakumattSupermarket<= tcKhetiasCRoads && tcNakumattSupermarket <= tcKhetiasCPoint && tcNakumattSupermarket<= tcTesiaSupermarket && tcNakumattSupermarket <= tcNaivasBandap && tcNakumattSupermarket<= tcTesiaFrontier){
+            //return nakumatt supermarket
+            endLatitude = optimizedNakumatt.get(0).getLatitude();
+            endLongitude = optimizedNakumatt.get(0).getLongitude();
+            prodStoreName = optimizedNakumatt.get(0).getStoreName();
+            finalCost = tcNakumattSupermarket;
+            transportCost = (optimizedNakumatt.get(0).getTransportCost()) * 2;
+            finalProdCost = finalCost - transportCost;
+            calculateDistanceAndDuration();
+        }//end of nakumatt supermarket
 
 
 
