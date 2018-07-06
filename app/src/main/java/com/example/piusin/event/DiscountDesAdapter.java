@@ -2,6 +2,7 @@ package com.example.piusin.event;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -27,7 +28,8 @@ public class DiscountDesAdapter extends RecyclerView.Adapter<DiscountDesAdapter.
     private Context mCtx;
     private double oldCost, newCost, discount;
 
-    ArrayList<DiscountDataProvider> data = new ArrayList<>();
+    private ArrayList<DiscountDataProvider> data ;
+    private DiscountDataProvider discountDataProvider;
 
     public DiscountDesAdapter(Context mCtx, ArrayList<DiscountDataProvider> data) {
         this.data = data;
@@ -42,7 +44,7 @@ public class DiscountDesAdapter extends RecyclerView.Adapter<DiscountDesAdapter.
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        final DiscountDataProvider discountDataProvider = data.get(position);
+        discountDataProvider = data.get(position);
         Picasso.with(mCtx)
                 .load(discountDataProvider.getDiscountImage())
                 .into(holder.discountImage);
@@ -69,7 +71,7 @@ public class DiscountDesAdapter extends RecyclerView.Adapter<DiscountDesAdapter.
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView discountImage;
         TextView discountname, discountOcost, discountNcost, discountText,storeName, discountDes;
-        Button discountBuy;
+        Button discountBuy, discountLocate;
         CardView cardView;
 
         public MyViewHolder(View itemView) {
@@ -84,26 +86,44 @@ public class DiscountDesAdapter extends RecyclerView.Adapter<DiscountDesAdapter.
             storeName = itemView.findViewById(R.id.desStoreName);
             discountDes = itemView.findViewById(R.id.des);
             discountBuy = itemView.findViewById(R.id.btnDesBuy);
+            discountLocate = itemView.findViewById(R.id.btnDeslocate);
             cardView = itemView.findViewById(R.id.cardview_des);
-
             discountBuy.setOnClickListener(this);
-            cardView.setOnClickListener(this);
+            discountLocate.setOnClickListener(this);
         }
 
 
         @Override
         public void onClick(View v) {
+            double latitude, longitude, productCost;
+            String storeName, productName;
+            AppCompatActivity activity = (AppCompatActivity) v.getContext();
 
             switch (v.getId())
             {
-                case R.id.discount_btnbuy:
+                case R.id.btnDesBuy:
                     Toast.makeText(mCtx, "Discounted Item Clicked", Toast.LENGTH_SHORT).show();
                     break;
-                case R.id.cardview_discounts:
-                    Toast.makeText(mCtx, "Cardview Item Clicked", Toast.LENGTH_SHORT).show();
+                case R.id.btnDeslocate:
+                    longitude = Double.valueOf(discountDataProvider.getLongitude());
+                    latitude = Double.valueOf(discountDataProvider.getLatitude());
+                    storeName = discountDataProvider.getStoreName();
+                    productCost = discountDataProvider.getNewCost();
+                    productName = discountDataProvider.getDiscountName();
+                    Bundle bundle = new Bundle();
+                    bundle.putDouble("lat",latitude);
+                    bundle.putDouble("lng",longitude);
+                    bundle.putString("store",storeName);
+                    bundle.putString("product", productName);
+                    bundle.putDouble("cost", productCost);
+                    NewMapFragment newMapFragment = new NewMapFragment();
+                    newMapFragment.setArguments(bundle);
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_container, newMapFragment).addToBackStack(null).commit();
+                    activity.getSupportActionBar().setTitle("Item Location");
                     break;
                 default:
                     Toast.makeText(mCtx, "End of Options ", Toast.LENGTH_SHORT).show();
+                    break;
             }
 
 

@@ -27,15 +27,12 @@ import java.util.ArrayList;
 
 
 public class DiscountDesFragment extends Fragment {
-
-   //private static final String URL_DISCOUNTS = "http://192.168.101.1/SuperMart/discounts.php";
     RecyclerView recyclerView;
     Context context = null; 
     ArrayList<DiscountDataProvider> productDataProviderList;
     String discountName, storeName, category;
     AppCompatActivity activity;
     View view;
-
 
     public DiscountDesFragment() {
         // Required empty public constructor
@@ -50,22 +47,17 @@ public class DiscountDesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_products, container, false);
         recyclerView = view.findViewById(R.id.products_reyclerviews);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         productDataProviderList = new ArrayList<>();
         activity = (AppCompatActivity) view.getContext();
-
-        //getting bundle data
         Bundle bundle = getArguments();
-
         if(bundle != null){
             discountName = bundle.getString("discountName");
             storeName = bundle.getString("storeName");
             category = bundle.getString("category");
-           // Toast.makeText(context, category, Toast.LENGTH_SHORT).show();
         }
         else
         {
@@ -88,17 +80,9 @@ public class DiscountDesFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 try{
-
-                    //converting the string to json array object
                     JSONArray array = new JSONArray(response);
-
-                    //traversing through all the object
                     for (int i = 0; i < array.length(); i++) {
-
-                        //getting product object from json array
                         JSONObject product = array.getJSONObject(i);
-
-                        //adding the product to product list
                         if(discountName.equals(product.getString("product_name")) && storeName.equals(product.getString("store_name")))
                         productDataProviderList.add(new DiscountDataProvider(
                                 product.getString("product_name"),
@@ -107,16 +91,16 @@ public class DiscountDesFragment extends Fragment {
                                 product.getDouble("new_cost"),
                                 product.getString("store_name"),
                                 product.getString("product_description"),
-                                product.getString("category_name")
+                                product.getString("category_name"),
+                                product.getString("store_latitude"),
+                                product.getString("store_longitude")
                         ));
                     }
                     DiscountDesAdapter adapter = new DiscountDesAdapter(context, productDataProviderList);
                     recyclerView.setAdapter(adapter);
                 }
-
                 catch (JSONException e) {
                     e.printStackTrace();
-                    //serverDownAlert();
                 }
 
             }
@@ -153,6 +137,5 @@ public class DiscountDesFragment extends Fragment {
                 })
                 .show();
     }
-
 }
 

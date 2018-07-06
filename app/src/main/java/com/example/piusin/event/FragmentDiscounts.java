@@ -39,7 +39,6 @@ public class FragmentDiscounts extends Fragment {
     public int loadvalue;
     View view;
 
-
     public FragmentDiscounts() {
         // Required empty public constructor
     }
@@ -53,7 +52,6 @@ public class FragmentDiscounts extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_products, container, false);
         recyclerView = view.findViewById(R.id.products_reyclerviews);
         recyclerView.setHasFixedSize(true);
@@ -62,7 +60,6 @@ public class FragmentDiscounts extends Fragment {
         productDataProviderList = new ArrayList<>();
         progressDialog = new ProgressDialog(context);
         receiveBundleData();
-
         return view;
     }
 
@@ -81,17 +78,9 @@ public class FragmentDiscounts extends Fragment {
             public void onResponse(String response) {
                 progressDialog.dismiss();
                 try{
-
-                    //converting the string to json array object
                     JSONArray array = new JSONArray(response);
-
-                    //traversing through all the object
                     for (int i = 0; i < array.length(); i++) {
-
-                        //getting product object from json array
                         JSONObject product = array.getJSONObject(i);
-
-                        //adding the product to product list
                         productDataProviderList.add(new DiscountDataProvider(
                                 product.getString("product_name"),
                                 product.getString("product_image"),
@@ -99,7 +88,9 @@ public class FragmentDiscounts extends Fragment {
                                 product.getDouble("new_cost"),
                                 product.getString("store_name"),
                                 product.getString("product_description"),
-                                product.getString("category_name")
+                                product.getString("category_name"),
+                                product.getString("store_latitude"),
+                                product.getString("store_longitude")
                         ));
                     }
                     DiscountAdapter adapter = new DiscountAdapter(context, productDataProviderList);
@@ -130,17 +121,9 @@ public class FragmentDiscounts extends Fragment {
             public void onResponse(String response) {
                 progressDialog.dismiss();
                 try{
-
-                    //converting the string to json array object
                     JSONArray array = new JSONArray(response);
-
-                    //traversing through all the object
                     for (int i = 0; i < array.length(); i++) {
-
-                        //getting product object from json array
                         JSONObject product = array.getJSONObject(i);
-
-                        //adding the product to product list
                         if(categoryName.equals(product.getString("category_name")))
                         productDataProviderList.add(new DiscountDataProvider(
                                 product.getString("product_name"),
@@ -149,17 +132,17 @@ public class FragmentDiscounts extends Fragment {
                                 product.getDouble("new_cost"),
                                 product.getString("store_name"),
                                 product.getString("product_description"),
-                                product.getString("category_name")
+                                product.getString("category_name"),
+                                product.getString("store_latitude"),
+                                product.getString("store_longitude")
                         ));
                     }
                     DiscountAdapter adapter = new DiscountAdapter(context, productDataProviderList);
                     recyclerView.setAdapter(adapter);
                 }
-
                 catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         },
                 new Response.ErrorListener() {
@@ -172,9 +155,8 @@ public class FragmentDiscounts extends Fragment {
         Volley.newRequestQueue(context).add(stringRequest);
     }
 
-    public void receiveBundleData(){  //check bundleData
+    public void receiveBundleData(){
         Bundle bundle = getArguments();
-
         if(bundle != null){
             categoryName = bundle.getString("category");
         }
@@ -203,14 +185,11 @@ public class FragmentDiscounts extends Fragment {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                         sweetAlertDialog.dismissWithAnimation();
-                        //Toast.makeText(context, "Load Value: " + loadvalue, Toast.LENGTH_SHORT).show();
                         switch (loadvalue){
                             case 0:
-                                //Toast.makeText(context, "Load 1: " + productDataProviderList.size(), Toast.LENGTH_SHORT).show();
                                 loadFilteredDiscounts();
                                 break;
                             case 1:
-                               // Toast.makeText(context, "Load 2: " + productDataProviderList.size(), Toast.LENGTH_SHORT).show();
                                 loadDiscounts();
                                 break;
                                 default:
@@ -230,5 +209,4 @@ public class FragmentDiscounts extends Fragment {
                 })
                 .show();
     }
-
 }

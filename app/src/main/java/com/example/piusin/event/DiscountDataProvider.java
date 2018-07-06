@@ -13,8 +13,9 @@ public class DiscountDataProvider {
     private String storeName;
     private String discountDescription;
     private String categoryName;
+    private String latitude, longitude;
 
-    public DiscountDataProvider(String discountName, String discountImage, double oldCost, double newCost, String storeName, String discountDescription, String categoryName) {
+    public DiscountDataProvider(String discountName, String discountImage, double oldCost, double newCost, String storeName, String discountDescription, String categoryName, String latitude, String longitude) {
         this.discountName = discountName;
         this.discountImage = discountImage;
         this.oldCost = oldCost;
@@ -22,6 +23,8 @@ public class DiscountDataProvider {
         this.storeName = storeName;
         this.discountDescription = discountDescription;
         this.categoryName = categoryName;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getDiscountName() {
@@ -50,5 +53,13 @@ public class DiscountDataProvider {
 
     public String getCategoryName() {
         return categoryName;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
     }
 }
