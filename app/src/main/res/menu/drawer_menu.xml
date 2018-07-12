@@ -15,56 +15,26 @@
             android:icon="@mipmap/cart"
             >
         </item>
-        <item
-            android:id="@+id/orders"
-            android:title="Orders"
-            android:icon="@mipmap/order"
-            >
-        </item>
+
         <item
         android:id="@+id/drawer_account"
         android:title="My Account"
         android:icon="@mipmap/account"
         >
+        </item>
+        <item
+            android:id="@+id/drawer_help"
+            android:title="@string/help_title"
+            android:icon="@mipmap/cart"
+            >
     </item>
+        <item
+            android:title="Refer a friend"
+            android:id="@+id/share"
+            android:icon="@mipmap/share"
+            >
+        </item>
 
     </group>
 
-    <item android:title="social">
-        <menu>
-            <item
-                android:title="All Categories"
-                android:id="@+id/allcategories"
-                android:icon="@mipmap/categories"
-                >
-            </item>
-            <item
-                android:title="Wishlist"
-                android:id="@+id/wishlist"
-                android:icon="@mipmap/wishlist"
-
-            >
-        </item>
-            <item
-                android:title="Ewallet"
-                android:id="@+id/ewallet"
-                android:icon="@mipmap/wallet"
-            >
-        </item>
-            <item
-                android:title="Loan"
-                android:id="@+id/loan"
-                android:icon="@mipmap/loans"
-                >
-            </item>
-            <item
-                android:title="Refer a friend"
-                android:id="@+id/share"
-                android:icon="@mipmap/share"
-                >
-            </item>
-
-        </menu>
-
-    </item>
 </menu>

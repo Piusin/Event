@@ -93,13 +93,8 @@ public class MainActivity extends AppCompatActivity implements SweetAlertClass{
                         drawerlayout.closeDrawers();
                         break;
 
-                    case R.id.orders:
-                        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.main_container, new SettingFragment()); //used for order
-                        fragmentTransaction.commit();
-                        getSupportActionBar().setTitle("Order");
-                        item.setChecked(true);
-                        drawerlayout.closeDrawers();
+                    case R.id.share:
+                        Toast.makeText(MainActivity.this, "Share this app", Toast.LENGTH_SHORT).show();
                         break;
 
                     //open user account
@@ -112,9 +107,6 @@ public class MainActivity extends AppCompatActivity implements SweetAlertClass{
                         drawerlayout.closeDrawers();
                         break;
 
-                    case R.id.allcategories:
-                        //Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-                        // startActivity(intent);
                 }
             }
 

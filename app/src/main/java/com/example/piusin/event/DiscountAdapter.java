@@ -106,7 +106,8 @@ public class DiscountAdapter extends RecyclerView.Adapter<DiscountAdapter.MyView
             discountNcost = itemView.findViewById(R.id.discount_newCost);
             discountText = itemView.findViewById(R.id.discount);
             storeName = itemView.findViewById(R.id.store_name);
-            discountBuy = itemView.findViewById(R.id.discount_btnbuy);
+            discountBuy
+                    = itemView.findViewById(R.id.discount_btnbuy);
             cardView = itemView.findViewById(R.id.cardview_discounts);
 
             discountBuy.setOnClickListener(this);

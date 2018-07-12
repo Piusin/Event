@@ -25,9 +25,8 @@
     app:showAsAction="never">
   </item>
     <item
-        android:id="@+id/settings"
-        android:title="@string/settings_title"
-        android:icon="@mipmap/settings"
+        android:id="@+id/help"
+        android:title="@string/help_title"
         app:showAsAction="never">
     </item>
 

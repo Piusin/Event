@@ -157,7 +157,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Products
 
           switch (v.getId()) {
               case R.id.products_btnbuy: //should go directly to buy
-                  displaySweetAlert();
+                  //displaySweetAlert();
                   Toast.makeText(mCtx, "Buy " + productDataProviderList.get(position).getProductName(), Toast.LENGTH_SHORT).show();
                   break;
 

@@ -21,14 +21,25 @@
  <TextView
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
-     android:text="@string/name"
+     android:text="@string/custid"
+     android:layout_marginTop="10dp"
+     android:textStyle="bold"
+     android:textSize="25sp"
+     android:gravity="center"
+     android:id="@+id/txtCustomerId"
+     />
+
+ <TextView
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:text="@string/phone"
      android:layout_marginTop="10dp"
      android:textStyle="bold"
      android:textSize="25sp"
      android:gravity="center"
      />
  <EditText
-     android:id="@+id/ad_name"
+     android:id="@+id/ad_phone"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
      android:layout_marginTop="6dp"
@@ -86,17 +97,23 @@
      android:layout_marginTop="6dp"
      android:orientation="horizontal">
   <Button
-      android:id="@+id/ad_bLogout"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="55dp"
-      android:text="@string/ac_logout" />
+      android:id="@+id/resetpass"
+      android:layout_width="115dp"
+      android:layout_height="60dp"
+      android:layout_marginStart="4dp"
+      android:text="@string/reset" />
   <Button
       android:id="@+id/ad_bUpdate"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="55dp"
+      android:layout_width="115dp"
+      android:layout_height="60dp"
+      android:layout_marginStart="4dp"
       android:text="@string/update" />
+  <Button
+      android:id="@+id/ad_bLogout"
+      android:layout_width="115dp"
+      android:layout_height="60dp"
+      android:layout_marginStart="4dp"
+      android:text="@string/ac_logout" />
  </LinearLayout>
 
 

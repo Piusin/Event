@@ -29,12 +29,10 @@ import java.util.List;
 
 //Gets data from server
 public class FeaturedStoreAdapter extends RecyclerView.Adapter<FeaturedStoreAdapter.FeaturedStoreViewHolder> implements SweetAlertClass{
-
     private Context mCtx;
     private ArrayList<FeaturedStoreMainDataProvider> featuredStoreDataProviderList;
     private String storeName;
 
-    //constructor
     public FeaturedStoreAdapter(Context mCtx, ArrayList<FeaturedStoreMainDataProvider> featuredStoreDataProviderList) {
         this.mCtx = mCtx;
         this.featuredStoreDataProviderList = featuredStoreDataProviderList;
@@ -72,10 +70,8 @@ public class FeaturedStoreAdapter extends RecyclerView.Adapter<FeaturedStoreAdap
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
                     Bundle bundle = new Bundle();
                     storeName = featuredStoreDataProvider.getStoreName();
-
                     bundle.putString("storeName", storeName);
                     categoriesFragment.setArguments(bundle);
-
                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_container, categoriesFragment).addToBackStack(null).commit();
                     activity.getSupportActionBar().setTitle("Categories");
                 }
@@ -96,7 +92,6 @@ public class FeaturedStoreAdapter extends RecyclerView.Adapter<FeaturedStoreAdap
 
         public FeaturedStoreViewHolder(View itemView) {
             super(itemView);
-
             storeName = itemView.findViewById(R.id.store_name);
             openTime = itemView.findViewById(R.id.store_opentime);
             location = itemView.findViewById(R.id.store_location);

@@ -9,9 +9,9 @@
         android:id="@+id/cardview_des"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="3dp"
-        app:cardUseCompatPadding="true"
-        >
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,20 +19,19 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/desImage"
                 android:layout_width="match_parent"
                 android:layout_height="270dp"
-                android:id="@+id/desImage"
-                android:src="@drawable/macbook"/>
+                android:src="@drawable/macbook" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:layout_weight="1"
-                android:padding="5dp"
                 android:layout_margin="8dp"
-                android:orientation="vertical">
-
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="5dp">
 
 
                 <LinearLayout
@@ -41,20 +40,21 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:id="@+id/desName"
-                        android:textSize="20sp"
-                        android:textColor="#900C3F"
-                        android:text="Carrots"/>
-                    <TextView
-                        android:layout_marginStart="90dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="Carrots"
                         android:textColor="#900C3F"
-                        android:textSize="20sp"
+                        android:textSize="20sp" />
+
+                    <TextView
                         android:id="@+id/desStoreName"
-                        android:text="Nakumatt"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="90dp"
+                        android:text="Nakumatt"
+                        android:textColor="#900C3F"
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -64,21 +64,22 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:id="@+id/desoldCost"
-                        android:textSize="20sp"
-                        android:textColor="#900C3F"
-                        android:text="KSH100"/>
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/desnewCost"
+                        android:text="KSH100"
                         android:textColor="#900C3F"
-                        android:textSize="20sp"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/desnewCost"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="90dp"
                         android:background="@drawable/strike_text"
-                        android:text="Ksh 90.0"/>
+                        android:text="Ksh 90.0"
+                        android:textColor="#900C3F"
+                        android:textSize="20sp" />
 
                 </LinearLayout>
 
@@ -86,66 +87,66 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
+
                     <TextView
+                        android:id="@+id/desDiscount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:text="4 % Discount"
                         android:textColor="#000000"
-                        android:id="@+id/desDiscount"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp" />
                 </LinearLayout>
 
             </LinearLayout>
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="0dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/des"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Descriptions" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:orientation="horizontal"
-                android:padding="5dp"
-                android:layout_margin="0dp">
-
-               <TextView
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-                   android:id="@+id/des"
-                   android:text="Descriptions"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_weight="2">
 
                 <Button
+                    android:id="@+id/btnDesBuy"
+                    style="?android:attr/buttonBarStyle"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
                     android:layout_weight="1"
-                    android:text="Buy Now"
                     android:background="#003300"
-                    android:textStyle="bold"
+                    android:text="Buy Now"
                     android:textColor="#FFFFFF"
-                    android:id="@+id/btnDesBuy"
-                    style="?android:attr/buttonBarStyle"/>
+                    android:textStyle="bold" />
 
                 <Button
+                    android:id="@+id/btnDeslocate"
+                    style="?android:attr/buttonBarStyle"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
                     android:layout_weight="1"
-                    android:text="Locate"
                     android:background="#006666"
-                    android:textStyle="bold"
+                    android:text="Locate"
                     android:textColor="#FFFFFF"
-                    android:id="@+id/btnDeslocate"
-                    style="?android:attr/buttonBarStyle"/>
+                    android:textStyle="bold" />
 
 
             </LinearLayout>
-
 
 
         </LinearLayout>

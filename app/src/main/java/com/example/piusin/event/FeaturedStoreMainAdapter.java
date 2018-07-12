@@ -62,14 +62,12 @@ public class FeaturedStoreMainAdapter extends RecyclerView.Adapter<FeaturedStore
                 FeaturedStoreFragment featuredStoreFragment = new FeaturedStoreFragment();
 
                 storeName = featuredStoreDataProvider.getName();
-                storeMore = "More";
-                if (storeName.equals(storeMore)) {
+                if (storeName.equals("")) {
                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_container, featuredStoreFragment).addToBackStack(null).commit();
                     activity.getSupportActionBar().setTitle("Stores");
                 } else {
                     bundle.putString("storeName", storeName);
                     categoriesFragment.setArguments(bundle);
-
                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_container, categoriesFragment).addToBackStack(null).commit();
                     activity.getSupportActionBar().setTitle("Categories");
 

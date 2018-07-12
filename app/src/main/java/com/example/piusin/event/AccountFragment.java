@@ -55,9 +55,12 @@ import org.json.JSONObject;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -70,14 +73,16 @@ public class AccountFragment extends Fragment implements Spinner.OnItemSelectedL
     Context context = null;
     private ArrayList<String> counties;
     private JSONArray county;
-   // EditText accountName, accountEmail, accountPassword;
-    private TextInputLayout textInputUsername;
+
     private TextInputLayout textInputEmail;
     private TextInputLayout textInputPassword;
+    private TextInputLayout textInputPhone;
+    private TextInputLayout textInputCPassword;
+    TextView txtCustId;
     TextView startLogin;
     Button createAccount;
     ImageView custImage;
-    String userCounty, imageEmail, name, password, path;
+    String userCounty, imageEmail, name, phone, password, cpassword, path, customerId;
     AppCompatActivity activity;
     View view;
 
@@ -105,9 +110,12 @@ public class AccountFragment extends Fragment implements Spinner.OnItemSelectedL
         spinner.setOnItemSelectedListener(this);
         getData();
 
-        textInputUsername = view.findViewById(R.id.text_input_username);
+        //textInputUsername = view.findViewById(R.id.text_input_username);
         textInputEmail = view.findViewById(R.id.text_input_email);
         textInputPassword = view.findViewById(R.id.text_input_password);
+        textInputCPassword = view.findViewById(R.id.text_input_cpassword);
+        textInputPhone = view.findViewById(R.id.text_input_phone);
+        txtCustId = view.findViewById(R.id.cust_id);
         startLogin = view.findViewById(R.id.txtStartLogin);
         custImage = view.findViewById(R.id.user_image);
         createAccount = view.findViewById(R.id.bCreateAccount);
@@ -175,17 +183,9 @@ public class AccountFragment extends Fragment implements Spinner.OnItemSelectedL
 
     //for customer registration
     private void registerUser() {
-        final String custName = textInputUsername.getEditText().getText().toString().trim();
+       // final String custName = textInputUsername.getEditText().getText().toString().trim();
         final String custEmail = textInputEmail.getEditText().getText().toString().trim();
         final String custPassword = textInputPassword.getEditText().getText().toString().trim();
-
-
-        //first we will do the validations
-        if (TextUtils.isEmpty(custName)) {
-            textInputUsername.getEditText().setError("Please enter username");
-            textInputUsername.getEditText().requestFocus();
-            return;
-        }
 
         if (TextUtils.isEmpty(custEmail)) {
             textInputEmail.getEditText().setError("Please enter your email");
@@ -228,8 +228,9 @@ public class AccountFragment extends Fragment implements Spinner.OnItemSelectedL
 
                                 //creating a new user object
                                 User user = new User(
-                                        userJson.getString("cust_name"),
+                                        userJson.getString("cust_id"),
                                         userJson.getString("cust_email"),
+                                        userJson.getString("phone"),
                                         userJson.getString("password"),
                                         userJson.getString("county")
                                 );
@@ -257,7 +258,7 @@ public class AccountFragment extends Fragment implements Spinner.OnItemSelectedL
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("username", custName);
+                params.put("cust_id", customerId);
                 params.put("email", custEmail);
                 params.put("password", custPassword);
                 params.put("county", userCounty);
@@ -270,10 +271,10 @@ public class AccountFragment extends Fragment implements Spinner.OnItemSelectedL
     }
 
     private void clean() {
-        textInputUsername.getEditText().setText("");
         textInputEmail.getEditText().setText("");
         textInputPassword.getEditText().setText("");
-        textInputUsername.getEditText().requestFocus();
+        textInputCPassword.getEditText().setText("");
+        textInputPhone.getEditText().setText("");
     }
 
     @Override
@@ -297,6 +298,111 @@ public class AccountFragment extends Fragment implements Spinner.OnItemSelectedL
                     Toast.makeText(context, "End of Options", Toast.LENGTH_SHORT).show();
                     break;
         }
+    }
+
+    //access customerIds and emails for restriction
+    private void loadEmails(){
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Config.URL_RESTRICT, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try{
+
+                    JSONArray array = new JSONArray(response);
+                    for (int i = 0; i < array.length(); i++) {
+
+                        JSONObject product = array.getJSONObject(i);
+
+                        //adding the product to product list
+                        if(product.getString("cust_email").equals(imageEmail))
+                        {
+                            textInputEmail.getEditText().setError("Email is already registered.");
+                            textInputEmail.getEditText().requestFocus();
+                            return;
+                            //Toast.makeText(context, "Email is already Used.", Toast.LENGTH_SHORT).show();
+                        }
+
+
+
+
+                    }
+
+
+                } catch (JSONException e) {
+
+                    e.printStackTrace();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(context).add(stringRequest);
+    }
+
+    //assing customer Id
+    public void getCustomer(){
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Config.URL_ASSINGCUSTOMER, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try{
+                    JSONArray array = new JSONArray(response);
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject customer = array.getJSONObject(i);
+
+                        customerId = customer.getString("cust_id");
+
+                        if(customerId.equals("")) {
+                            getCustomer();
+                        }
+                        else
+                        {
+                            int customer_id;
+                            int year = Calendar.getInstance().get(Calendar.YEAR);
+                            customer_id = Integer.valueOf(customerId.substring(10));
+                            customer_id = ++customer_id;
+
+                            if(customer_id < 9)
+                            {
+                                customerId = "CUST/" + year + "/000" + customer_id;
+                            }
+
+                            if(customer_id >= 9 && customer_id < 99)
+                            {
+                                customerId = "CUST/" + year + "/00" + customer_id;
+                            }
+
+                            if(customer_id >= 99 && customer_id< 999)
+                            {
+                                customerId = "CUST/" + year + "/0" + customer_id;
+                            }
+                            txtCustId.setText(customerId);
+                            if(customerId.isEmpty()){
+                                Toast.makeText(context, "Customer ID not generated", Toast.LENGTH_SHORT).show();
+                            }else {
+                                uploadCode();
+                            }
+
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+        Volley.newRequestQueue(context).add(stringRequest);
+
     }
 
     /*
@@ -331,17 +437,52 @@ public class AccountFragment extends Fragment implements Spinner.OnItemSelectedL
         return  path;
     }
 
+    public boolean isEmailValid(String email)
+    {
+        String regExpn =
+                "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
+                        +"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        +"[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                        +"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        +"[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                        +"([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
+
+        CharSequence inputStr = email;
+
+        Pattern pattern = Pattern.compile(regExpn,Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+
+        if(matcher.matches())
+            return true;
+        else
+            return false;
+    }
+
+    public boolean isPasswordValid(String password){
+        String regExpn = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$";
+        CharSequence inputStr = password;
+        Pattern pattern = Pattern.compile(regExpn,Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+        if(matcher.matches())
+            return true;
+        else
+            return false;
+
+        /*
+        * At least one upper case English letter, (?=.*?[A-Z])
+At least one lower case English letter, (?=.*?[a-z])
+At least one digit, (?=.*?[0-9])
+At least one special character, (?=.*?[#?!@$%^&*-])
+Minimum eight in length .{8,} (with the anchors)*/
+
+    }
+
+
     private void validations(){ //does fields uploads
         imageEmail = textInputEmail.getEditText().getText().toString().trim();
-        name = textInputUsername.getEditText().getText().toString().trim();
+        phone = textInputPhone.getEditText().getText().toString().trim();
         password = textInputPassword.getEditText().getText().toString().trim();
-        //getting the actual path of the image
-        // path = getPath(filePath);
-        if (TextUtils.isEmpty(name)) {
-            textInputUsername.getEditText().setError("Please enter username");
-            textInputUsername.getEditText().requestFocus();
-            return;
-        }
+        cpassword = textInputCPassword.getEditText().getText().toString().trim();
 
         if (TextUtils.isEmpty(imageEmail)) {
             textInputEmail.getEditText().setError("Please enter your email");
@@ -355,11 +496,50 @@ public class AccountFragment extends Fragment implements Spinner.OnItemSelectedL
             return;
         }
 
+        if(!isEmailValid(imageEmail)){
+            textInputEmail.getEditText().setError("Enter a valid email");
+            textInputEmail.getEditText().requestFocus();
+            return;
+        }else{
+            loadEmails();
+        }
+
+        if (TextUtils.isEmpty(phone)) {
+            textInputPhone.getEditText().setError("Please enter your phone number");
+            textInputPhone.getEditText().requestFocus();
+            return;
+        }
+
         if (TextUtils.isEmpty(password)) {
-            textInputPassword.getEditText().setError("Enter a password");
+            textInputPassword.getEditText().setError("Please enter a password");
             textInputPassword.getEditText().requestFocus();
             return;
         }
+
+        if (!isPasswordValid(password)){
+            textInputPassword.getEditText().setError("Password must contain atleast one uppercase or lower case letter, digit, special character and minimum eight in length");
+            textInputPassword.getEditText().requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(cpassword)) {
+            textInputCPassword.getEditText().setError("Please Confirm your password");
+            textInputCPassword.getEditText().requestFocus();
+            return;
+        }
+
+        if(!password.equals(cpassword)){
+            textInputCPassword.getEditText().setError("Password Mismatch");
+            textInputCPassword.getEditText().requestFocus();
+            return;
+        }
+
+        if (!isPasswordValid(cpassword)){
+            textInputCPassword.getEditText().setError("Password must contain atleast one uppercase or lower case letter, digit, special character and minimum eight in length");
+            textInputCPassword.getEditText().requestFocus();
+            return;
+        }
+
         if(userCounty.isEmpty())
         {
             Toast.makeText(context, "Select County", Toast.LENGTH_SHORT).show();
@@ -370,7 +550,8 @@ public class AccountFragment extends Fragment implements Spinner.OnItemSelectedL
             return;
         }
         else {
-            uploadCode();
+            getCustomer();
+            //uploadCode();
         }
     }
 
@@ -382,12 +563,13 @@ public class AccountFragment extends Fragment implements Spinner.OnItemSelectedL
             //Creating a multi part request
             new MultipartUploadRequest(context, uploadId, URLs.UPLOAD_URL)
                     .addFileToUpload(path, "image") //Adding file
-                    .addParameter("name", name) //Adding text parameter to the request
+                    .addParameter("cust_id", customerId) //Adding text parameter to the request
                     .addParameter("email", imageEmail)
+                    .addParameter("phone", phone)
                     .addParameter("password", password)
                     .addParameter("county", userCounty)
                     .setNotificationConfig(new UploadNotificationConfig())
-                    .setMaxRetries(5)
+                    .setMaxRetries(6)
                     .startUpload(); //Starting the upload
 
             //notify complete account creation
@@ -444,7 +626,7 @@ public class AccountFragment extends Fragment implements Spinner.OnItemSelectedL
     public void displayAccountCreation(){ //account creation notification
         new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
                 .setTitleText("Account Successfully Created")
-                .setContentText("Login to your account.!!")
+                .setContentText("Your Customer ID is: " +  customerId + "\n"  + "Login to your account.!!")
                 .setConfirmText("OK")
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override

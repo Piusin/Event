@@ -5,11 +5,12 @@ package com.example.piusin.event.LoginsPackage;
  */
 
 public class User {
-    private String cust_name, cust_email, cust_county, url;
+    private String cust_name, cust_email, cust_phone, cust_county, url;
 
-    public User(String cust_name, String cust_email, String cust_county, String url) {
+    public User(String cust_name, String cust_email, String cust_phone, String cust_county, String url) {
         this.cust_name = cust_name;
         this.cust_email = cust_email;
+        this.cust_phone = cust_phone;
         this.cust_county = cust_county;
         this.url = url;
     }
@@ -20,6 +21,10 @@ public class User {
 
     public String getCust_email() {
         return cust_email;
+    }
+
+    public String getCust_phone() {
+        return cust_phone;
     }
 
     public String getCust_county() {

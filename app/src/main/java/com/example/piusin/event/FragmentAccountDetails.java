@@ -67,18 +67,19 @@ public class FragmentAccountDetails extends Fragment implements View.OnClickList
     View view;
     Context context = null;
     AppCompatActivity activity;
-    Button bLogout, bUpdate;
-    EditText name, email;
+    Button bLogout, bUpdate, bresetPass;
+    EditText phone, email;
     ImageView imageView;
 
     private int PICK_IMAGE_REQUEST = 1; //Image request code
     private static final int STORAGE_PERMISSION_CODE = 123; //storage permission code
     private Bitmap bitmap; ////Bitmap to get image froMm gallery
     private Uri filePath;   //Uri to store the image uri
-    private String path, cname, cemail, userCounty, oldEmail ;
-    Spinner spinner;
+    private String path, cemail, cphone, userCounty, custId ;
+    private Spinner spinner;
     private ArrayList<String> counties;
     private JSONArray county;
+    private TextView txtCustomerId;
 
 
     public FragmentAccountDetails() {
@@ -100,14 +101,16 @@ public class FragmentAccountDetails extends Fragment implements View.OnClickList
             activity.getSupportActionBar().setTitle("Login");
         }
 
-        name = view.findViewById(R.id.ad_name);
+        phone = view.findViewById(R.id.ad_phone);
         email = view.findViewById(R.id.ad_email);
-        //county = view.findViewById(R.id.ad_county);
+        txtCustomerId = view.findViewById(R.id.txtCustomerId);
         imageView = view.findViewById(R.id.ad_image);
         bLogout = view.findViewById(R.id.ad_bLogout);
         bUpdate = view.findViewById(R.id.ad_bUpdate);
+        bresetPass = view.findViewById(R.id.resetpass);
         bUpdate.setOnClickListener(this);
         bLogout.setOnClickListener(this);
+        bresetPass.setOnClickListener(this);
         imageView.setOnClickListener(this);
         counties = new ArrayList();
         spinner = view.findViewById(R.id.account_spinners);
@@ -117,10 +120,11 @@ public class FragmentAccountDetails extends Fragment implements View.OnClickList
         //getting the current user
         User user = SharedPrefManager.getInstance(context).getUser();
         //setting the values to the textviews
-        name.setText(user.getCust_name());
+        phone.setText(user.getCust_phone());
         email.setText(user.getCust_email());
+        txtCustomerId.setText(user.getCust_name());
 
-        oldEmail = user.getCust_email().trim();
+        custId = user.getCust_name();
        // county.setText(user.getCust_county());
         Picasso.with(context)
                 .load(user.getUrl())
@@ -192,6 +196,11 @@ public class FragmentAccountDetails extends Fragment implements View.OnClickList
                 uploadMultipart();
                 break;
 
+            case R.id.resetpass:
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new FragmentResetPassword()).addToBackStack(null).commit();
+                activity.getSupportActionBar().setTitle("Reset Password");
+                break;
+
             case R.id.ad_image:
                 showFileChooser();
                 break;
@@ -238,12 +247,12 @@ public class FragmentAccountDetails extends Fragment implements View.OnClickList
     }
 
     private void validations() {
-       cname = name.getText().toString().trim();
        cemail = email.getText().toString().trim();
+       cphone = phone.getText().toString().trim();
       // ccounty = county.getText().toString().trim();
-        if(TextUtils.isEmpty(cname)){
-            name.setError("Please enter username");
-            name.requestFocus();
+        if(TextUtils.isEmpty(cphone)){
+            phone.setError("Please enter Phone Number");
+            phone.requestFocus();
             return;
         }
         if(TextUtils.isEmpty(cemail)){
@@ -302,10 +311,10 @@ public class FragmentAccountDetails extends Fragment implements View.OnClickList
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("name", cname);
+                params.put("cust_id", custId);
+                params.put("phone", cphone);
                 params.put("email", cemail);
                 params.put("county", userCounty);
-                params.put("old_email", oldEmail);
                 return params;
             }
         };
@@ -320,10 +329,10 @@ public class FragmentAccountDetails extends Fragment implements View.OnClickList
             //Creating a multi part request
             new MultipartUploadRequest(context, uploadId, URLs.UPDATE_URL)
                     .addFileToUpload(path, "image") //Adding file
-                    .addParameter("name", cname) //Adding text parameter to the request
+                    .addParameter("cust_id", custId)
+                    .addParameter("phone", cphone) //Adding text parameter to the request
                     .addParameter("email", cemail)
                     .addParameter("county", userCounty)
-                    .addParameter("old_email", oldEmail)
                     .setNotificationConfig(new UploadNotificationConfig())
                     .setMaxRetries(5)
                     .startUpload(); //Starting the upload

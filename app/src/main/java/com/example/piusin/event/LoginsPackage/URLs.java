@@ -14,4 +14,6 @@ public class URLs { //fragmentAccountDetails
     public static final String UPLOAD_URL = "http://10.42.0.1/Scripts/SuperMart/testUpload.php";
     public static final String UPDATE_URL = "http://10.42.0.1/Scripts/SuperMart/updateAccounts.php";
     public static final String UPDATES_URL = "http://10.42.0.1/Scripts/SuperMart/updateAccount.php";
+    public static final String RESETPASS = "http://10.42.0.1/Scripts/SuperMart/resetpassword.php";
+    public static final String INVOKEPASS = "http://10.42.0.1/Scripts/SuperMart/forgotPassword.php";
 }

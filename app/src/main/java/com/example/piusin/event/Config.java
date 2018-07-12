@@ -26,5 +26,7 @@ public class Config {
     public static final String URL_NEWPRODUCTS  = "http://10.42.0.1/Scripts/SuperMart/newProducts.php"; //whatsNewDes, whatsNewFragment
     public static final String URL_GETPARSEDPRODUCTSDATA = "http://10.42.0.1/Scripts/SuperMart/sure.php";
     public static final String URL_ALGORITHMPRODUCTS = "http://10.42.0.1/Scripts/SuperMart/getAlgorithmProducts.php"; //used where smartSearchandfiltering interface is implemented
+    public static final String URL_ASSINGCUSTOMER = "http://10.42.0.1/Scripts/SuperMart/assingCustomerId.php";
+    public static final String URL_RESTRICT = "http://10.42.0.1/Scripts/SuperMart/restrictDoubleInsertion.php";
 
 }

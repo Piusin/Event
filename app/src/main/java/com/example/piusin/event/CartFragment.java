@@ -106,6 +106,7 @@ public class CartFragment extends Fragment implements View.OnClickListener{
                 prodDes = cursor.getString(1);
                 prodCount = cursor.getString(2);
                 prodStoreName = cursor.getString(3);
+
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, Config.URL_PRODUCTS, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
