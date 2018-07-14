@@ -1,5 +1,6 @@
 package com.example.piusin.event;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
@@ -21,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.piusin.event.InterfacesPackage.SweetAlertClass;
+import com.example.piusin.event.OnBoardingPackage.MainOnboardActivity;
+import com.example.piusin.event.OnBoardingPackage.WebViewHelp;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 
@@ -94,7 +97,10 @@ public class MainActivity extends AppCompatActivity implements SweetAlertClass{
                         break;
 
                     case R.id.share:
+
                         Toast.makeText(MainActivity.this, "Share this app", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MainActivity.this, MainOnboardActivity.class);
+                        startActivity(intent);
                         break;
 
                     //open user account
@@ -160,8 +166,11 @@ public class MainActivity extends AppCompatActivity implements SweetAlertClass{
         }else {
             //toolbar items
             switch (item.getItemId()) {
-                case R.id.settings:
-                    Toast.makeText(this, "Settings Clicked", Toast.LENGTH_SHORT).show();
+                case R.id.help:
+                    fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.main_container, new WebViewHelp()); //must go here coz of products bundle checks
+                    fragmentTransaction.commit();
+                    getSupportActionBar().setTitle("User Help");
                     return true;
 
                 case R.id.search:

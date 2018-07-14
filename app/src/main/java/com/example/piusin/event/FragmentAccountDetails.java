@@ -56,6 +56,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -255,12 +257,33 @@ public class FragmentAccountDetails extends Fragment implements View.OnClickList
             phone.requestFocus();
             return;
         }
+        if(cphone.length()!= 13){
+            phone.setError("Phone Number size must be 13");
+            phone.requestFocus();
+            return;
+        }
+        if(!(cphone.startsWith("+2547"))){
+            phone.setError("Phone Number Must start with +2547");
+            phone.requestFocus();
+            return;
+        }
+        if(cphone.contains("*") || cphone.contains(" ") || cphone.contains(".") || cphone.contains("-") || cphone.contains(",") || cphone.contains("*") || cphone.contains("/") || cphone.contains("(") || cphone.contains(")") || cphone.contains("N") || cphone.contains(";"))
+        {
+            phone.setError("Enter a valid phone number");
+            phone.requestFocus();
+            return;
+        }
         if(TextUtils.isEmpty(cemail)){
             email.setError("Please enter Email");
             email.requestFocus();
             return;
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(cemail).matches()) {
+            email.setError("Enter a valid email");
+            email.requestFocus();
+            return;
+        }
+        if(!isEmailValid(cemail)){
             email.setError("Enter a valid email");
             email.requestFocus();
             return;
@@ -449,6 +472,38 @@ public class FragmentAccountDetails extends Fragment implements View.OnClickList
                 Toast.makeText(getContext().getApplicationContext(), "Oops you just denied the permission", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    public boolean isEmailValid(String email)
+    {
+        String regExpn =
+                "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
+                        +"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        +"[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                        +"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        +"[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                        +"([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
+
+        CharSequence inputStr = email;
+
+        Pattern pattern = Pattern.compile(regExpn,Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+
+        if(matcher.matches())
+            return true;
+        else
+            return false;
+    }
+
+    public boolean isPasswordValid(String password){
+        String regExpn = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$";
+        CharSequence inputStr = password;
+        Pattern pattern = Pattern.compile(regExpn,Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+        if(matcher.matches())
+            return true;
+        else
+            return false;
     }
 
 }

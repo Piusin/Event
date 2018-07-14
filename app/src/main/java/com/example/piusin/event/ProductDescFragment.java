@@ -107,7 +107,8 @@ import java.util.List;
                                  product.getString("product_image"),
                                  product.getString("product_name"),
                                  product.getDouble("product_cost"),
-                                 product.getString("product_description")
+                                 product.getString("product_description"),
+                                 product.getString("store_name")
                          ));
                      }
                      //creating adapter object and setting it to recyclerview

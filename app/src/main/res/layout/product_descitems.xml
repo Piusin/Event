@@ -50,6 +50,14 @@
                     android:textStyle="bold"
                     android:textColor="#FF5733"
                     android:text="Ksh 10.0"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/productdesStore"
+                    android:textSize="20sp"
+                    android:textColor="#900C3F"
+                    android:text="Nakumatt"/>
             </LinearLayout>
 
 

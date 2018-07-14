@@ -2,9 +2,11 @@ package com.example.piusin.event;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -48,6 +50,9 @@ public class FragmentLogin extends Fragment implements View.OnClickListener{
     private TextView createAccount;
     private Button bLogin, bFPassword;
     String custId, email, password;
+    EditText passwordInput;
+    AlertDialog ad;
+    AlertDialog.Builder builder;
 
 
     public FragmentLogin() {
@@ -94,7 +99,8 @@ public class FragmentLogin extends Fragment implements View.OnClickListener{
                 break;
 
             case R.id.bForgotPass:
-                invokePHPMirror();
+                passwordDialog();
+                ad.show();
                // activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new FragmentResetPassword()).addToBackStack(null).commit();
                // activity.getSupportActionBar().setTitle("Reset Password");
                 break;
@@ -106,6 +112,19 @@ public class FragmentLogin extends Fragment implements View.OnClickListener{
 
     }
 
+    private void attempt(){
+        if(custId.isEmpty()){
+            passwordInput.setError("Enter Customer ID");
+            return;
+        }
+        if(custId.contains("CUST/2018/")){
+            passwordInput.setError("Enter a valid Supermatt Customer ID");
+            return;
+        }
+        else{
+            Toast.makeText(context, "Active", Toast.LENGTH_SHORT).show();
+        }
+    }
     private void userLogin() {
          email = textInputEmail.getEditText().getText().toString().trim();
          password = textInputPassword.getEditText().getText().toString().trim();
@@ -226,43 +245,61 @@ public class FragmentLogin extends Fragment implements View.OnClickListener{
     }
 
     private void invokePHPMirror(){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.INVOKEPASS,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+        if(!custId.isEmpty()) {
+            if(custId.contains("CUST/2018/")) {
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, URLs.INVOKEPASS,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                //Toast.makeText(context, "21", Toast.LENGTH_SHORT).show();
 
-                        try {
-                            JSONObject obj = new JSONObject(response);
-                            if (!obj.getBoolean("error")) {
-                                Toast.makeText(context, obj.getString("message") , Toast.LENGTH_SHORT).show();
-                               // displayPasswordReset();
-                                displayPasswordSent();
+                                try {
+                                    JSONObject obj = new JSONObject(response);
+                                    //Toast.makeText(context, "2", Toast.LENGTH_SHORT).show();
+                                    if (!obj.getBoolean("error")) {
+                                        Toast.makeText(context, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                                        // displayPasswordReset();
+                                        //Toast.makeText(context, "3", Toast.LENGTH_SHORT).show();
+                                        displayPasswordSent();
 
-                            } else {
-                                Toast.makeText(context, obj.getString("message") , Toast.LENGTH_SHORT).show();
-                                //displayPasswordResetFailure();
+                                    } else {
+                                        Toast.makeText(context, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(context, "4", Toast.LENGTH_SHORT).show();
+                                        // displayPasswordSent();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    displayPasswordSent();
+                                    // Toast.makeText(context, "Error Ocurred", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(context, "Error Ocurred", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                //Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                                displayPasswordSent();
+                            }
+                        }) {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<>();
+                        params.put("cust_id", custId);
+                        return params;
                     }
-                }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("cust_id", "CUST/2018/0001");
-                return params;
-            }
-        };
+                };
 
-        VolleySingleton.getInstance(getContext().getApplicationContext()).addToRequestQueue(stringRequest);
+                VolleySingleton.getInstance(getContext().getApplicationContext()).addToRequestQueue(stringRequest);
+            }else
+            {
+                //Toast.makeText(context, "Invalid ID", Toast.LENGTH_SHORT).show();
+                displayPasswordFormat();
+            }
+        }else
+        {
+            //Toast.makeText(context, "Customer ID Required", Toast.LENGTH_SHORT).show();
+            displayPasswordEmpty();
+        }
     }
 
     public void displayPasswordSent(){ //account creation notification
@@ -274,6 +311,63 @@ public class FragmentLogin extends Fragment implements View.OnClickListener{
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+
+                    }
+                })
+                .show();
+    }
+    
+    private void passwordDialog(){
+        builder = new AlertDialog.Builder(context);
+        builder.setTitle("Password Recovery");
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setMessage("Enter Your Customer ID");
+        passwordInput = new EditText(context);
+        builder.setView(passwordInput);
+        builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                custId = passwordInput.getText().toString();
+                Toast.makeText(context, "Customer: " + custId, Toast.LENGTH_SHORT).show();
+                invokePHPMirror();
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        ad = builder.create();
+    }
+    private void displayPasswordEmpty(){
+        new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("Password Recovery.")
+                .setContentText("Enter Customer ID in Dialog")
+                .setConfirmText("OK")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        passwordInput.requestFocus();
+                        sweetAlertDialog.dismissWithAnimation();
+
+                    }
+                })
+                .show();
+    }
+
+    private void displayPasswordFormat(){
+        new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("Password Recovery.")
+                .setContentText("Enter a valid Supermatt " + "\n" + "Customer ID.")
+                .setConfirmText("OK")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        passwordInput.setText("");
+                        passwordInput.requestFocus();
                         sweetAlertDialog.dismissWithAnimation();
 
                     }

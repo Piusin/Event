@@ -69,6 +69,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Products
                 .into(holder.productImage);
         holder.productName.setText(productDataProvider.getProductName());
         holder.productPrice.setText("Ksh " + String.valueOf(productDataProvider.getProductPrice()));
+        holder.storeName.setText(productDataProvider.getStoreName());
         categoryName = productDataProvider.getCategoryName();
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +116,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Products
         ImageView productImage;
         TextView productName;
         TextView productPrice;
+        TextView storeName;
         CardView cardView;
 
         Button productBuy;
@@ -126,6 +128,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Products
             productImage = itemView.findViewById(R.id.product_image);
             productName = itemView.findViewById(R.id.prouct_name);
             productPrice = itemView.findViewById(R.id.products_price);
+            storeName = itemView.findViewById(R.id.store_name);
             cardView = itemView.findViewById(R.id.cardview_featuredstoreproducts);
 
            mCount = itemView.findViewById(R.id.count_tv);

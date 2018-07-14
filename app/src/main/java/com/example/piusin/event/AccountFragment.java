@@ -503,9 +503,24 @@ Minimum eight in length .{8,} (with the anchors)*/
         }else{
             loadEmails();
         }
-
         if (TextUtils.isEmpty(phone)) {
-            textInputPhone.getEditText().setError("Please enter your phone number");
+            textInputPhone.getEditText().setError("Please enter your Phone Number");
+            textInputPhone.getEditText().requestFocus();
+            return;
+        }
+        if(phone.length()!= 13){
+            textInputPhone.getEditText().setError("Phone Number size must be 13");
+            textInputPhone.getEditText().requestFocus();
+            return;
+        }
+        if(!(phone.startsWith("+2547"))){
+            textInputPhone.getEditText().setError("Phone Number Must start with +2547");
+            textInputPhone.getEditText().requestFocus();
+            return;
+        }
+        if(phone.contains("*") || phone.contains(" ") || phone.contains(".") || phone.contains("-") || phone.contains(",") || phone.contains("*") || phone.contains("/") || phone.contains("(") || phone.contains(")") || phone.contains("N") || phone.contains(";"))
+        {
+            textInputPhone.getEditText().setError("Enter a valid phone number");
             textInputPhone.getEditText().requestFocus();
             return;
         }

@@ -72,6 +72,7 @@ public class ProductDescAdapter extends RecyclerView.Adapter<ProductDescAdapter.
         holder.productDesName.setText(productDataProvider.getProductDesName());
         holder.productDesCost.setText("Ksh " + String.valueOf(productDataProvider.getProductDesCost()));
         holder.productDes.setText(productDataProvider.getProductDescription());
+        holder.storeName.setText(productDataProvider.getProductDesStoreName());
     }
 
     @Override
@@ -84,6 +85,7 @@ public class ProductDescAdapter extends RecyclerView.Adapter<ProductDescAdapter.
         TextView productDesName;
         TextView productDesCost;
         TextView productDes;
+        TextView storeName;
         Button buy, nearestMall, addToCart;
 
 
@@ -94,6 +96,7 @@ public class ProductDescAdapter extends RecyclerView.Adapter<ProductDescAdapter.
             productDesName = itemView.findViewById(R.id.productdesName);
             productDesCost = itemView.findViewById(R.id.productdesCost);
             productDes = itemView.findViewById(R.id.productDescription);
+            storeName = itemView.findViewById(R.id.productdesStore);
             buy = itemView.findViewById(R.id.btnBuyProduct);
             nearestMall = itemView.findViewById(R.id.btnNearestmall);
             addToCart = itemView.findViewById(R.id.btnaddToBasket);
