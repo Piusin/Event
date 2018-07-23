@@ -31,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.piusin.event.InterfacesPackage.SweetAlertClass;
+import com.example.piusin.event.OnBoardingPackage.WebViewHelp;
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog;
 
 import org.json.JSONArray;
@@ -164,7 +165,7 @@ public class ProductsFragment extends Fragment  implements SearchView.OnQueryTex
         mCartIconMenuItem = menu.findItem(R.id.icon);
         View actionView = mCartIconMenuItem.getActionView();
         if (actionView != null) {
-            mCountTv = actionView.findViewById(R.id.count_tv);
+           // mCountTv = actionView.findViewById(R.id.count_tv);
             mImageBtn = actionView.findViewById(R.id.cart_image);
         }
 
@@ -172,7 +173,7 @@ public class ProductsFragment extends Fragment  implements SearchView.OnQueryTex
         mImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 mCountTv.setText(String.valueOf(totalCount));
+               //  mCountTv.setText(String.valueOf(totalCount));
                 fragmentTransaction = activity.getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.main_container, new CartFragment());
                 fragmentTransaction.commit();
@@ -180,6 +181,7 @@ public class ProductsFragment extends Fragment  implements SearchView.OnQueryTex
             }
         });
     }
+
 
     @Override
     public void onResume() {

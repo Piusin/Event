@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:id="@+id/toolbar"
-    android:background="?attr/colorPrimaryDark"
+    android:background="@color/toolbars"
     android:minHeight="?attr/actionBarSize"
     android:fitsSystemWindows="true"
     android:layout_marginBottom="0dp"

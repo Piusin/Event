@@ -20,7 +20,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="278dp"
+                android:layout_height="268dp"
                 android:id="@+id/desImage"
                 android:src="@drawable/macbook"/>
 
@@ -67,27 +67,30 @@
                 </LinearLayout>
 
             <LinearLayout
+                android:layout_marginBottom="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:orientation="horizontal">
 
                 <Button
+                    android:layout_marginTop="33dp"
                     android:layout_width="0dp"
                     android:layout_height="60dp"
                     android:layout_weight="1"
                     android:text="Buy Now"
-                    android:background="#003300"
+                    android:background="@color/toolbars"
                     android:textStyle="bold"
                     android:textColor="#FFFFFF"
                     android:id="@+id/btnNewB"
                     />
                 <Button
+                    android:layout_marginTop="33dp"
                     android:layout_width="0dp"
                     android:layout_height="60dp"
                     android:layout_weight="1"
                     android:text="Locate"
-                    android:background="#006666"
+                    android:background="@color/toolbars"
                     android:textStyle="bold"
                     android:textColor="#FFFFFF"
                     android:id="@+id/btnNewLocate"

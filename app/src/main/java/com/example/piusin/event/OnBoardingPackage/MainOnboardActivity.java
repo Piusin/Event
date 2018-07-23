@@ -32,9 +32,11 @@ public class MainOnboardActivity extends AppCompatActivity {
 
     public void addDotsIndicator(int position){
         mdots = new TextView[3];
+        mdotslayout.removeAllViews();
         for(int i = 0; i<mdots.length; i++){
             mdots[i] = new TextView(this);
-            mdots[i].setText(Html.fromHtml("&8226"));
+            mdots[i].setText(Html.fromHtml("&#8226"));
+            mdots[i].setTextSize(35);
             mdots[i].setTextColor(getResources().getColor(R.color.colorTransparentWhite));
             mdotslayout.addView(mdots[i]);
         }
@@ -43,7 +45,6 @@ public class MainOnboardActivity extends AppCompatActivity {
             mdots[position].setTextColor(getResources().getColor(R.color.colorWhite));
         }
     }
-
     ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

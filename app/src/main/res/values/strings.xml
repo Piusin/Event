@@ -6,6 +6,7 @@
     <string name="account_title">Account</string>
     <string name="search_title">Search</string>
     <string name="cart_title">cart</string>
+    <string name="about_title">About</string>
     <string name="discount_ocost"><strike>KSH 40000</strike></string>
 
     <!-- fragment-account.xml -->

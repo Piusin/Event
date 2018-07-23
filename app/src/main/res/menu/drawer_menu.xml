@@ -25,7 +25,7 @@
         <item
             android:id="@+id/drawer_help"
             android:title="@string/help_title"
-            android:icon="@mipmap/cart"
+            android:icon="@drawable/shopping_cart"
             >
     </item>
         <item

@@ -61,7 +61,7 @@
             android:id="@+id/store_distance"
             android:layout_gravity="center"
             android:textSize="20sp"
-            android:text="Name"/>
+            android:text=""/>
 
 
     </LinearLayout>

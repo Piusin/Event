@@ -74,7 +74,7 @@
                 android:layout_height="80dp"
                 android:layout_weight="1"
                 android:text="Buy Now"
-                android:background="#003300"
+                android:background="@color/buttons"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
                 android:id="@+id/btnBuyProduct"
@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="80dp"
                 android:layout_weight="1"
-                android:background="#000066"
+                android:background="@color/button1"
                 android:text="Nearest Mall"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
@@ -99,7 +99,7 @@
                 android:id="@+id/btnaddToBasket"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
-                android:background="#006666"
+                android:background="@color/button"
                 style="?android:attr/buttonBarStyle"/>
 
         </LinearLayout>

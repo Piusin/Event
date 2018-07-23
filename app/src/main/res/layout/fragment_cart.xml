@@ -23,17 +23,18 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:orientation="horizontal"
-            android:background="#2E86C1"
+            android:background="@color/toolbars"
             android:weightSum="2"
             android:layout_margin="5dp">
+
             <TextView
-                android:layout_width="0dp"
-                android:layout_margin="5dp"
-                android:layout_height="match_parent"
-                android:text="Sub Total: "
-                android:textColor="#FFFF"
                 android:id="@+id/cart_subtotal"
-                android:layout_weight="1"/>
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="Sub Total: "
+                android:textColor="#FFFF" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -51,21 +52,23 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_weight="1"
-            android:background="#2E86C1"
+            android:background="@color/toolbars"
             android:weightSum="2">
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#2E86C1"
+                android:textColor="#FFF"
+                android:background="@color/toolbars"
                 android:id="@+id/btn_back_toShop"
                 android:text="Continue Shopping"/>
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#2E86C1"
+                android:textColor="#FFF"
+                android:background="@color/toolbars"
                 android:id="@+id/btn_check_out"
                 android:text="Checkout"/>
 

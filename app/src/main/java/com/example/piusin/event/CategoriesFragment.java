@@ -118,7 +118,8 @@ public class CategoriesFragment extends Fragment implements SearchView.OnQueryTe
         mCartIconMenuItem = menu.findItem(R.id.icon);
         View actionView = mCartIconMenuItem.getActionView();
         if (actionView != null) {
-            mCountTv = actionView.findViewById(R.id.count_tv);
+           // fetchCount();
+            //mCountTv = actionView.findViewById(R.id.count_tv);
             mImageBtn = actionView.findViewById(R.id.cart_image);
         }
 
@@ -126,7 +127,7 @@ public class CategoriesFragment extends Fragment implements SearchView.OnQueryTe
         mImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // mCountTv.setText(String.valueOf(totalCount));
+                //mCountTv.setText(String.valueOf(totalCount));
                 fragmentTransaction = activity.getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.main_container, new CartFragment());
                 fragmentTransaction.commit();

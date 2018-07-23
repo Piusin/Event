@@ -61,9 +61,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Buy"
-                android:background="#003300"
+                android:background="@color/toolbars"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"
+                android:textColor="#FFFF"
                 android:id="@+id/whatsnew_btnbuy"/>
 
         </LinearLayout>

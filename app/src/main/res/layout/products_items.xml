@@ -66,10 +66,11 @@
 
                 <ImageButton
                     android:layout_width="60dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="46dp"
                     android:id="@+id/products_btncart"
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="20dp"
+                    android:background="@color/buttons"
                     android:src="@mipmap/cart"/>
                 <Button
                     android:layout_width="wrap_content"
@@ -77,7 +78,7 @@
                     android:text="Buy"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
-                    android:background="#003300"
+                    android:background="@color/buttons"
                     android:textStyle="bold"
                     android:textColor="#FFFFFF"
                     android:id="@+id/products_btnbuy"/>

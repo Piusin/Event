@@ -5,4 +5,12 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorTransparentWhite">#CCCCCC</color>
     <color name="colorWhite">#fff</color>
+    <color name="toolbarss">#212624</color>
+    <color name="toolbars">#585A56</color>
+    <color name="toolbrss">#1C2C58</color>
+    <color name="button">#040C0E</color>
+    <color name="buttons">#132226</color>
+    <color name="button1">#2A3457</color>
+    <color name="button2">#515B51</color>
+
 </resources>

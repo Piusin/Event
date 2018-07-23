@@ -115,9 +115,9 @@ public class ProductDescAdapter extends RecyclerView.Adapter<ProductDescAdapter.
                 AppCompatActivity activity;
                 switch (v.getId()) {
                     case R.id.btnBuyProduct:
-                        activity = (AppCompatActivity) v.getContext();
+                       // activity = (AppCompatActivity) v.getContext();
                         Toast.makeText(mCtx, "Buy " + productDataProvider.getProductDesName(), Toast.LENGTH_SHORT).show();
-                        activity.startActivity(new Intent(mCtx, MapsActivity2.class));
+                        //activity.startActivity(new Intent(mCtx, MapsActivity2.class));
 
                         break;
 
@@ -136,12 +136,12 @@ public class ProductDescAdapter extends RecyclerView.Adapter<ProductDescAdapter.
                         break;
 
                     case R.id.btnaddToBasket:
-                        loadAlgorithmProducts();
+                        //loadAlgorithmProducts();
 
                        /* Toast.makeText(mCtx, "StoreName: " +sortedAlgorithmDataProviderList.get(0).storeName +  " Latitude: " + sortedAlgorithmDataProviderList.get(0).storeLatitude +
                                 " Longitude: " + sortedAlgorithmDataProviderList.get(0).storeLongitude + " ProductName: " + sortedAlgorithmDataProviderList.get(0).productName + " ProductCost: "+
                                 sortedAlgorithmDataProviderList.get(0).productCost, Toast.LENGTH_SHORT).show();
-                        *///Toast.makeText(mCtx, "Add " + productDataProvider.getProductDesName() + " to the basket", Toast.LENGTH_SHORT).show();
+                        */Toast.makeText(mCtx, "Add " + productDataProvider.getProductDesName() + " to the basket", Toast.LENGTH_SHORT).show();
                         break;
 
                     default:
@@ -342,6 +342,12 @@ public class ProductDescAdapter extends RecyclerView.Adapter<ProductDescAdapter.
             Toast.makeText(mCtx, "Index: " + index + "ProductCost: " + sortedAlgorithmDataProviderList.get(index).getProductCost() + "StoreName: " + sortedAlgorithmDataProviderList.get(index).getStoreName(), Toast.LENGTH_SHORT).show();
         }*/
         return sortedAlgorithmDataProviderList;
+    }
+
+
+
+    public void additemToCart(){
+
     }
 
 

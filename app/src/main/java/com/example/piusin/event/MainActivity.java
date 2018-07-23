@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements SweetAlertClass{
     MenuItem mCartIconMenuItem;
     TextView mCountTv;
     ImageButton mImageBtn;
+    TextView profileName;
 
     int count, totalCount = 0;
     SQLiteDatabase sqLiteDatabase;
@@ -66,7 +67,12 @@ public class MainActivity extends AppCompatActivity implements SweetAlertClass{
         fragmentTransaction.commit();
         getSupportActionBar().setTitle("All Mart");
 
+       // profileName = findViewById(R.id.profile_name);
+        //profileName.setText("Got me");
+
         navigationView = findViewById(R.id.navigation_view);
+       // profileName = findViewById(R.id.profile_name);
+      //  profileName.setText("Got me");
         navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -139,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements SweetAlertClass{
         mCartIconMenuItem = menu.findItem(R.id.overflow_cart);
         View actionView = mCartIconMenuItem.getActionView();
         if (actionView != null) {
-            mCountTv = actionView.findViewById(R.id.count_tv);
+           // mCountTv = actionView.findViewById(R.id.count_tv);
             mImageBtn = actionView.findViewById(R.id.cart_image);
         }
 
@@ -147,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements SweetAlertClass{
         mImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCountTv.setText(String.valueOf(totalCount));
+             //  mCountTv.setText(String.valueOf(totalCount));
                 fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.main_container, new CartFragment());
                 fragmentTransaction.commit();
@@ -192,6 +198,10 @@ public class MainActivity extends AppCompatActivity implements SweetAlertClass{
                     fragmentTransaction.replace(R.id.main_container, new CartFragment());
                     fragmentTransaction.commit();
                     getSupportActionBar().setTitle("Cart");
+                    return true;
+
+                case R.id.about:
+                    Toast.makeText(this, "About Clicked", Toast.LENGTH_SHORT).show();
                     return true;
             }
         }

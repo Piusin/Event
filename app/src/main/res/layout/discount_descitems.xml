@@ -119,31 +119,35 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginBottom="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_weight="2">
 
                 <Button
+                    android:layout_marginTop="37dp"
                     android:id="@+id/btnDesBuy"
                     style="?android:attr/buttonBarStyle"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
                     android:layout_weight="1"
-                    android:background="#003300"
+                    android:background="@color/toolbars"
                     android:text="Buy Now"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold" />
 
                 <Button
+                    android:layout_marginTop="37dp"
                     android:id="@+id/btnDeslocate"
                     style="?android:attr/buttonBarStyle"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
                     android:layout_weight="1"
-                    android:background="#006666"
+                    android:background="@color/toolbars"
                     android:text="Locate"
                     android:textColor="#FFFFFF"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_marginBottom="2dp"/>
 
 
             </LinearLayout>

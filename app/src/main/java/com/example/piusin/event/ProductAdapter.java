@@ -131,7 +131,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Products
             storeName = itemView.findViewById(R.id.store_name);
             cardView = itemView.findViewById(R.id.cardview_featuredstoreproducts);
 
-           mCount = itemView.findViewById(R.id.count_tv);
+           //mCount = itemView.findViewById(R.id.count_tv);
 
             productBuy = itemView.findViewById(R.id.products_btnbuy);
             productAddToCart = itemView.findViewById(R.id.products_btncart);

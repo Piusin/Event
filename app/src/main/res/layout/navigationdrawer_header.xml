@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="180dp"
 
-    android:background="@color/colorAccent"
+    android:background="@color/toolbars"
     >
 
 
@@ -23,10 +23,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pius Kitheu"
-        android:id="@+id/name"
+        android:text="Pius Kitheru"
+        android:id="@+id/profile_name"
         android:textStyle="bold"
         android:textSize="20dp"
+        android:textColor="#FFF"
         android:layout_marginTop="50dp"
         android:layout_marginLeft="20dp"
         android:layout_toRightOf="@id/profile_image"
@@ -35,6 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Pkitheru@gmail.com"
+        android:textColor="#FFF"
         android:id="@+id/email"
         android:textStyle="bold"
         android:textSize="15dp"

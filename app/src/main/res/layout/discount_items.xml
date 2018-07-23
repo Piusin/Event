@@ -82,7 +82,7 @@
                 android:gravity="center_vertical"
                 android:textSize="23sp"
                 android:layout_marginTop="40dp"
-                android:background="#003300"
+                android:background="@color/toolbars"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
                 android:id="@+id/discount_btnbuy"/>

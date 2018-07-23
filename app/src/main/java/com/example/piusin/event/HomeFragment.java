@@ -93,7 +93,7 @@ public class HomeFragment extends Fragment {
         singleVerticals.add(
                 new CategoriesDataProvider(
                         "Flour",
-                        R.drawable.food_category
+                        R.drawable.flour_category
                 ));
         singleVerticals.add(
                 new CategoriesDataProvider(
@@ -110,7 +110,7 @@ public class HomeFragment extends Fragment {
 
         singleHorizontals.add(
                 new FeaturedStoreDataProvider(
-                        R.drawable.nakumatt,
+                        R.drawable.khetias,
                         "Khetias Crossroads",
                         "Open Hours: 7.50Am - 9.00Pm",
                         "Location: Bungoma",
@@ -118,7 +118,7 @@ public class HomeFragment extends Fragment {
 
         singleHorizontals.add(
                 new FeaturedStoreDataProvider(
-                        R.drawable.computer_store,
+                        R.drawable.tesia,
                         "Tesia Frontier",
                         "Open Hours:8.00Am - 8.00Pm",
                         "Location: Kisumu",
@@ -126,7 +126,7 @@ public class HomeFragment extends Fragment {
 
         singleHorizontals.add(
                 new FeaturedStoreDataProvider(
-                        R.drawable.khetias,
+                        R.drawable.naivas,
                         "Naivas Bandap",
                         "Open Hours:9.00Am - 11.00Pm",
                         "Location: Eldoret",
@@ -286,7 +286,7 @@ public class HomeFragment extends Fragment {
         singleDiscounts.add(
                 new DiscountMainDataProvider(
                         "Computing",
-                        R.drawable.printers
+                        R.drawable.hp
                 ));
         singleDiscounts.add(
                 new DiscountMainDataProvider(
@@ -296,7 +296,7 @@ public class HomeFragment extends Fragment {
         singleDiscounts.add(
                 new DiscountMainDataProvider(
                         "Flour",
-                        R.drawable.food_category
+                        R.drawable.flour_category
                 ));
         singleDiscounts.add(
                 new DiscountMainDataProvider(
@@ -313,7 +313,7 @@ public class HomeFragment extends Fragment {
         ArrayList<WhatsNewDataProvider> singleWhatsNew = new ArrayList<>();
         singleWhatsNew.add(
                 new WhatsNewDataProvider(
-                        R.drawable.nikon_camera,
+                        R.drawable.cameras,
                         "Cameras"
                 ));
         singleWhatsNew.add(

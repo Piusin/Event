@@ -56,7 +56,7 @@ public class FeaturedStoreAdapter extends RecyclerView.Adapter<FeaturedStoreAdap
         holder.openTime.setText("Open: " + featuredStoreDataProvider.getStoreOpenTime() + "AM");
         holder.closeTime.setText("Close: " + featuredStoreDataProvider.getStoreCloseTime() + "PM");
         holder.location.setText("Located: " + featuredStoreDataProvider.getStoreLocation());
-        holder.distance.setText("Distance: "+ String.valueOf(featuredStoreDataProvider.getStoreDistance()) + "KMs");
+       // holder.distance.setText("Distance: "+ String.valueOf(featuredStoreDataProvider.getStoreDistance()) + "KMs");
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
