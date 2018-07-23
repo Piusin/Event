@@ -34,9 +34,6 @@ import java.util.List;
 
 public class CartFragment extends Fragment implements View.OnClickListener{
 
-//uses productdataprovider && cartAdapter
-    //private static final String URL_PRODUCTS  = "http://192.168.101.1/SuperMart/products.php";
-
     RecyclerView recyclerView;
     Context context = null;
     List<ProductDataProvider> productDataProviderList;
@@ -164,19 +161,12 @@ public class CartFragment extends Fragment implements View.OnClickListener{
         Bundle bundle = new Bundle();
         switch(v.getId()){
             case R.id.btn_back_toShop:
-                /*ProductsFragment productsFragment = new ProductsFragment();
-                bundle.putString("storeName", "all");
-                productsFragment.setArguments(bundle);
                 fragmentManager.beginTransaction().replace(R.id.main_container, new HomeFragment()).addToBackStack(null).commit();
-               */
-                MapFragmentMany2 mapFragmentMany2 = new MapFragmentMany2();
-                fragmentManager.beginTransaction().replace(R.id.main_container, mapFragmentMany2).addToBackStack(null).commit();
-
                 break;
 
             case R.id.btn_check_out:
-                MapFragmentMany mapFragmentMany = new MapFragmentMany();
-                fragmentManager.beginTransaction().replace(R.id.main_container, mapFragmentMany).addToBackStack(null).commit();
+                MapFragmentMany2 mapFragmentMany2 = new MapFragmentMany2();
+                fragmentManager.beginTransaction().replace(R.id.main_container, mapFragmentMany2).addToBackStack(null).commit();
                 break;
 
                 default:
